@@ -1,0 +1,546 @@
+export type Locale = "en" | "ar"
+
+export const LOCALES: Locale[] = ["en", "ar"]
+export const DEFAULT_LOCALE: Locale = "en"
+
+/**
+ * Full UI dictionary. Subsidiary-specific copy lives in lib/subsidiaries.ts;
+ * this file holds all chrome, section, and page-level strings.
+ */
+const en = {
+  nav: {
+    home: "Home",
+    legacy: "Our Legacy",
+    subsidiaries: "Subsidiaries",
+    spotlight: "Spotlight",
+    careers: "Careers",
+    contact: "Contact",
+    getInTouch: "Get in Touch",
+    openMenu: "Open menu",
+    closeMenu: "Close menu",
+    languageName: "العربية",
+    switchTo: "Switch to Arabic",
+  },
+  hero: {
+    badge: "Qatari Conglomerate · Since 1993",
+    titleA: "A legacy of excellence,",
+    titleHighlight: "redefining industries",
+    titleB: "across Qatar.",
+    subtitle:
+      "Since 1993, Flora Group has been a trusted cornerstone of innovation — spanning technology, infrastructure, security, commodities and premium trade.",
+    ctaExplore: "Explore Subsidiaries",
+    ctaProfile: "Corporate Profile",
+    trustVerticals: "6 verticals",
+    trustCertified: "MOI certified",
+    trustCountries: "26+ countries",
+    caption: "Doha, Qatar · Established 1993",
+    cardVerticals: "Strategic Verticals",
+    cardYears: "Years of Trust",
+  },
+  stats: {
+    established: "Established History",
+    verticals: "Strategic Verticals",
+    certified: "Certified Security & Governance",
+    countries: "Global Partner Countries",
+  },
+  subsidiaries: {
+    eyebrow: "The Subsidiary Matrix",
+    title: "Six distinct businesses, one standard of excellence.",
+    description:
+      "Each Flora Group company operates as a specialised leader in its field, united by a shared commitment to integrity, quality and long-term partnership. Select any company to explore its full story.",
+    explore: "Explore",
+  },
+  spotlight: {
+    eyebrow: "Core Spotlight",
+    title: "A closer look at our flagship divisions.",
+    description:
+      "Two of the Group's most advanced businesses — engineered for Qatar's most demanding public and private institutions.",
+    technology: {
+      label: "Technology Solutions",
+      heading: "Flora Technology",
+      subtitle:
+        "End-to-end enterprise engineering for Qatar's leading institutions.",
+      points: [
+        {
+          title: "Initial Analysis & Consultancy",
+          body: "In-depth assessment of organisational requirements, infrastructure audits and tailored solution architecture aligned to business objectives.",
+        },
+        {
+          title: "Implementation & Integration",
+          body: "Custom software development, systems engineering and seamless integration across governmental and private-sector platforms.",
+        },
+        {
+          title: "End-User Training",
+          body: "Comprehensive onboarding and capability programmes ensuring teams operate deployed systems with full confidence.",
+        },
+        {
+          title: "Business Continuity",
+          body: "Resilient architectures, proactive monitoring and managed support engineered to safeguard operations around the clock.",
+        },
+      ],
+    },
+    security: {
+      label: "Security Infrastructure",
+      heading: "Flora Security Systems",
+      subtitle: "MOI-certified physical security and risk mitigation since 2013.",
+      points: [
+        {
+          title: "MOI Compliance",
+          body: "Official Ministry of Interior certification, ensuring every deployment meets Qatar's most rigorous regulatory standards.",
+        },
+        {
+          title: "Advanced Access Control",
+          body: "Biometric, card-based and multi-factor access systems engineered for high-security environments.",
+        },
+        {
+          title: "Video Surveillance",
+          body: "Enterprise-grade CCTV, intelligent analytics and centralised command for total situational awareness.",
+        },
+        {
+          title: "Physical Risk Mitigation",
+          body: "Comprehensive threat assessment, perimeter protection and complex risk management across critical assets.",
+        },
+      ],
+    },
+  },
+  detail: {
+    breadcrumbHome: "Home",
+    breadcrumbSubs: "Subsidiaries",
+    overviewEyebrow: "Overview",
+    overviewTitle: "The story behind",
+    atAGlance: "At a glance",
+    sector: "Sector",
+    established: "Established",
+    partOf: "Part of",
+    partOfValue: "Flora Group W.L.L.",
+    getInTouch: "Get in touch",
+    capabilitiesEyebrow: "What sets us apart",
+    capabilitiesTitle: "Capabilities & strengths",
+    relatedEyebrow: "Explore the Group",
+    relatedTitle: "More from Flora Group",
+    viewAll: "View all subsidiaries",
+    visitWebsite: "Visit Website",
+    companyProfile: "Company Profile",
+    contactUs: "Contact Us",
+  },
+  footer: {
+    careersTitle: "Build your career with Qatar's trusted conglomerate.",
+    careersBody:
+      "Join a multidisciplinary group shaping technology, security, trade and infrastructure across the region.",
+    exploreCareers: "Explore Careers",
+    about:
+      "A prestigious Qatari conglomerate established in 1993, spanning commodities, technology, certified security, international floral supply and civil construction.",
+    subsidiaries: "Subsidiaries",
+    headOffice: "Head Office",
+    address:
+      "Flora Building, Rawdat Al Khail St, Bldg 127, Street 330, Doha, Qatar · P.O. Box 16118",
+    openInMaps: "Open in Maps",
+    globalInquiries: "Global Inquiries",
+    newsletter: "Subscribe for corporate updates and partnership opportunities.",
+    emailPlaceholder: "Your email",
+    subscribed: "Thank you — we'll be in touch.",
+    rights: "All rights reserved.",
+    tagline: "Doha · Qatar · Established 1993",
+  },
+  contact: {
+    eyebrow: "Get In Touch",
+    title: "Let's build something enduring together.",
+    subtitle:
+      "Whether you're exploring a partnership, a project, or a career with Qatar's trusted conglomerate, our team is ready to assist.",
+    ourOffices: "Our Offices",
+    headOfficeName: "Flora Group — Head Office",
+    flowersOfficeName: "Flora Flowers & Sibonne",
+    phone: "Phone",
+    fax: "Fax",
+    hoursDays: "Sunday – Thursday",
+    hoursTime: "8:00 AM – 6:00 PM (AST)",
+    mapTitle: "Flora Group location in Doha, Qatar",
+    sendTitle: "Send us a message",
+    sendHelp: "Fill out the form and a member of our team will respond shortly.",
+    fullName: "Full Name",
+    email: "Email",
+    company: "Company",
+    subject: "Subject",
+    message: "Message",
+    messagePlaceholder: "How can we help you?",
+    send: "Send Message",
+    successTitle: "Thank you",
+    successBody: "Your message has been received. We'll be in touch soon.",
+    sendAnother: "Send another message",
+    required: "required",
+  },
+  notFound: {
+    code: "404",
+    title: "This page could not be found.",
+    body: "The page you're looking for may have moved or no longer exists. Let's get you back on track.",
+    home: "Back to Home",
+    subsidiaries: "Browse Subsidiaries",
+  },
+  careers: {
+    metaTitle: "Careers — Flora Group W.L.L.",
+    metaDescription:
+      "Join Flora Group W.L.L. in Doha, Qatar. Explore open roles across technology, security, trading, floral supply, and construction.",
+    eyebrow: "Careers",
+    heroImageAlt:
+      "Diverse business team collaborating in a modern office meeting",
+    title: "Shape Qatar's future with a legacy brand.",
+    subtitle:
+      "For over three decades, Flora Group has attracted exceptional talent to build technology, secure infrastructure, and premium trade across the region. Your next chapter starts here.",
+    viewRoles: "View open roles",
+    generalApply: "General application",
+    stats: {
+      years: "Years of excellence",
+      verticals: "Strategic verticals",
+      partners: "Global partners",
+      team: "Team members",
+    },
+    culture: {
+      eyebrow: "Why Flora Group",
+      title: "A place where ambition meets integrity.",
+      description:
+        "We combine the reach of a diversified conglomerate with the ownership culture of specialist companies — giving you room to grow without losing what makes your work meaningful.",
+      values: [
+        {
+          title: "Purposeful growth",
+          body: "Develop across six verticals with mentorship, training, and clear paths to leadership.",
+        },
+        {
+          title: "Uncompromising standards",
+          body: "MOI-certified security, international quality benchmarks, and ethics at every level.",
+        },
+        {
+          title: "Regional impact",
+          body: "Contribute to projects that shape Qatar's public and private sectors for decades.",
+        },
+        {
+          title: "People first",
+          body: "A collaborative culture that rewards initiative, accountability, and long-term thinking.",
+        },
+      ],
+    },
+    benefits: {
+      eyebrow: "Life at Flora",
+      title: "Benefits designed for lasting careers.",
+      items: [
+        "Competitive compensation packages",
+        "Health & wellness support",
+        "Professional development programmes",
+        "Multicultural team environment",
+        "Career mobility across subsidiaries",
+        "Qatar National Vision aligned projects",
+      ],
+    },
+    positions: {
+      eyebrow: "Open positions",
+      title: "Current opportunities.",
+      description:
+        "Explore roles across our subsidiaries. Select a position to pre-fill your application — full integration with our HR system is coming soon.",
+      filterLabel: "Filter by department",
+      noResults: "No positions match this filter.",
+      apply: "Apply now",
+      location: "Location",
+      type: "Employment type",
+      subsidiary: "Company",
+    },
+    application: {
+      eyebrow: "Apply",
+      title: "Submit your application.",
+      description:
+        "Complete the form below and our talent team will review your profile. Backend processing will be connected shortly.",
+      fullName: "Full Name",
+      email: "Email",
+      phone: "Phone",
+      position: "Position",
+      positionPlaceholder: "Select a role or general application",
+      generalOption: "General application — open to all roles",
+      linkedin: "LinkedIn profile",
+      linkedinPlaceholder: "https://linkedin.com/in/...",
+      resume: "Résumé / CV",
+      resumeHint: "PDF or DOC, max 5 MB (upload integration pending)",
+      coverLetter: "Cover letter",
+      coverPlaceholder: "Tell us why you'd be a great fit for Flora Group...",
+      submit: "Submit application",
+      successTitle: "Application received",
+      successBody:
+        "Thank you for your interest in Flora Group. Our HR team will review your application and contact you if there is a match.",
+      submitAnother: "Submit another application",
+      required: "required",
+    },
+    cta: {
+      title: "Don't see the right role?",
+      body: "Send your CV to our talent team — we're always looking for exceptional people across all verticals.",
+      email: "careers@floragroup.net",
+      button: "Email our HR team",
+    },
+  },
+}
+
+export type Messages = typeof en
+
+const ar: Messages = {
+  nav: {
+    home: "الرئيسية",
+    legacy: "إرثنا",
+    subsidiaries: "الشركات التابعة",
+    spotlight: "الأضواء",
+    careers: "الوظائف",
+    contact: "تواصل معنا",
+    getInTouch: "تواصل معنا",
+    openMenu: "فتح القائمة",
+    closeMenu: "إغلاق القائمة",
+    languageName: "English",
+    switchTo: "التبديل إلى الإنجليزية",
+  },
+  hero: {
+    badge: "مجموعة قطرية · منذ ١٩٩٣",
+    titleA: "إرثٌ من التميّز،",
+    titleHighlight: "يُعيد تعريف الصناعات",
+    titleB: "في قطر.",
+    subtitle:
+      "منذ عام ١٩٩٣، ظلّت مجموعة فلورا ركيزةً موثوقةً للابتكار — تمتدّ عبر التقنية والبنية التحتية والأمن والسلع والتجارة الراقية.",
+    ctaExplore: "استكشف الشركات",
+    ctaProfile: "الملف التعريفي",
+    trustVerticals: "٦ قطاعات",
+    trustCertified: "معتمدة من الداخلية",
+    trustCountries: "أكثر من ٢٦ دولة",
+    caption: "الدوحة، قطر · تأسست عام ١٩٩٣",
+    cardVerticals: "قطاعات استراتيجية",
+    cardYears: "عاماً من الثقة",
+  },
+  stats: {
+    established: "تاريخ التأسيس",
+    verticals: "قطاعات استراتيجية",
+    certified: "أمن وحوكمة معتمدة",
+    countries: "دول شريكة حول العالم",
+  },
+  subsidiaries: {
+    eyebrow: "منظومة الشركات",
+    title: "ستّ شركاتٍ متميّزة، ومعيارٌ واحد للتميّز.",
+    description:
+      "تعمل كلّ شركةٍ من مجموعة فلورا كرائدةٍ متخصّصة في مجالها، تجمعها التزاماتٌ مشتركة بالنزاهة والجودة والشراكة طويلة الأمد. اختر أيّ شركةٍ لاستكشاف قصّتها كاملة.",
+    explore: "استكشف",
+  },
+  spotlight: {
+    eyebrow: "تسليط الضوء",
+    title: "نظرةٌ أقرب على أقسامنا الرائدة.",
+    description:
+      "اثنتان من أكثر شركات المجموعة تقدّماً — مصمّمتان لأكثر المؤسسات القطرية الحكومية والخاصة تطلّباً.",
+    technology: {
+      label: "حلول التقنية",
+      heading: "فلورا للتكنولوجيا",
+      subtitle: "هندسة مؤسسية متكاملة لكبرى المؤسسات في قطر.",
+      points: [
+        {
+          title: "التحليل والاستشارات الأولية",
+          body: "تقييمٌ معمّق لمتطلبات المؤسسة، ومراجعةٌ للبنية التحتية، وتصميمُ حلولٍ مُخصّصة متوافقة مع أهداف العمل.",
+        },
+        {
+          title: "التنفيذ والتكامل",
+          body: "تطوير برمجياتٍ مُخصّصة وهندسة أنظمة وتكاملٌ سلس عبر المنصّات الحكومية والقطاع الخاص.",
+        },
+        {
+          title: "تدريب المستخدمين",
+          body: "برامج تأهيلٍ شاملة تضمن تشغيل الفرق للأنظمة المُطبَّقة بثقةٍ تامّة.",
+        },
+        {
+          title: "استمرارية الأعمال",
+          body: "بُنى مرنة ومراقبةٌ استباقية ودعمٌ مُدار صُمّمت لحماية العمليات على مدار الساعة.",
+        },
+      ],
+    },
+    security: {
+      label: "البنية الأمنية",
+      heading: "فلورا للأنظمة الأمنية",
+      subtitle: "أمنٌ ماديّ معتمد من الداخلية وإدارةٌ للمخاطر منذ ٢٠١٣.",
+      points: [
+        {
+          title: "الامتثال لمعايير الداخلية",
+          body: "اعتمادٌ رسميّ من وزارة الداخلية يضمن مطابقة كلّ تطبيقٍ لأكثر المعايير التنظيمية صرامةً في قطر.",
+        },
+        {
+          title: "أنظمة تحكّمٍ متقدّمة بالوصول",
+          body: "أنظمة بيومترية وبطاقات وتحقّقٍ متعدّد العوامل مصمّمة للبيئات عالية الأمان.",
+        },
+        {
+          title: "المراقبة بالفيديو",
+          body: "كاميرات مراقبةٍ احترافية وتحليلاتٌ ذكية وقيادةٌ مركزية لوعيٍ شاملٍ بالموقف.",
+        },
+        {
+          title: "الحدّ من المخاطر المادية",
+          body: "تقييمٌ شامل للتهديدات وحمايةٌ للمحيط وإدارةٌ معقّدة للمخاطر عبر الأصول الحيوية.",
+        },
+      ],
+    },
+  },
+  detail: {
+    breadcrumbHome: "الرئيسية",
+    breadcrumbSubs: "الشركات التابعة",
+    overviewEyebrow: "نظرة عامة",
+    overviewTitle: "القصّة وراء",
+    atAGlance: "لمحة سريعة",
+    sector: "القطاع",
+    established: "التأسيس",
+    partOf: "جزء من",
+    partOfValue: "مجموعة فلورا ذ.م.م.",
+    getInTouch: "تواصل معنا",
+    capabilitiesEyebrow: "ما يميّزنا",
+    capabilitiesTitle: "القدرات ونقاط القوّة",
+    relatedEyebrow: "استكشف المجموعة",
+    relatedTitle: "المزيد من مجموعة فلورا",
+    viewAll: "عرض جميع الشركات",
+    visitWebsite: "زيارة الموقع",
+    companyProfile: "الملف التعريفي",
+    contactUs: "تواصل معنا",
+  },
+  footer: {
+    careersTitle: "ابنِ مسيرتك المهنية مع المجموعة القطرية الموثوقة.",
+    careersBody:
+      "انضمّ إلى مجموعةٍ متعدّدة التخصّصات تُشكّل التقنية والأمن والتجارة والبنية التحتية في المنطقة.",
+    exploreCareers: "استكشف الوظائف",
+    about:
+      "مجموعةٌ قطرية مرموقة تأسّست عام ١٩٩٣، تمتدّ عبر السلع والتقنية والأمن المعتمد وتوريد الزهور الدولي والمقاولات المدنية.",
+    subsidiaries: "الشركات التابعة",
+    headOffice: "المكتب الرئيسي",
+    address:
+      "مبنى فلورا، شارع روضة الخيل، مبنى ١٢٧، شارع ٣٣٠، الدوحة، قطر · ص.ب ١٦١١٨",
+    openInMaps: "افتح في الخرائط",
+    globalInquiries: "الاستفسارات الدولية",
+    newsletter: "اشترك لتصلك تحديثات الشركة وفرص الشراكة.",
+    emailPlaceholder: "بريدك الإلكتروني",
+    subscribed: "شكراً لك — سنتواصل معك قريباً.",
+    rights: "جميع الحقوق محفوظة.",
+    tagline: "الدوحة · قطر · تأسست عام ١٩٩٣",
+  },
+  contact: {
+    eyebrow: "تواصل معنا",
+    title: "لنبنِ معاً شيئاً يدوم.",
+    subtitle:
+      "سواء كنت تستكشف شراكةً أو مشروعاً أو مسيرةً مهنية مع المجموعة القطرية الموثوقة، فإنّ فريقنا جاهزٌ لمساعدتك.",
+    ourOffices: "مكاتبنا",
+    headOfficeName: "مجموعة فلورا — المكتب الرئيسي",
+    flowersOfficeName: "فلورا للزهور وسيبون",
+    phone: "هاتف",
+    fax: "فاكس",
+    hoursDays: "الأحد – الخميس",
+    hoursTime: "٨:٠٠ ص – ٦:٠٠ م (بتوقيت قطر)",
+    mapTitle: "موقع مجموعة فلورا في الدوحة، قطر",
+    sendTitle: "أرسل لنا رسالة",
+    sendHelp: "املأ النموذج وسيردّ عليك أحد أعضاء فريقنا قريباً.",
+    fullName: "الاسم الكامل",
+    email: "البريد الإلكتروني",
+    company: "الشركة",
+    subject: "الموضوع",
+    message: "الرسالة",
+    messagePlaceholder: "كيف يمكننا مساعدتك؟",
+    send: "إرسال الرسالة",
+    successTitle: "شكراً لك",
+    successBody: "تمّ استلام رسالتك. سنتواصل معك قريباً.",
+    sendAnother: "إرسال رسالة أخرى",
+    required: "مطلوب",
+  },
+  notFound: {
+    code: "٤٠٤",
+    title: "تعذّر العثور على هذه الصفحة.",
+    body: "ربّما تكون الصفحة التي تبحث عنها قد نُقلت أو لم تعد موجودة. دعنا نعيدك إلى المسار الصحيح.",
+    home: "العودة إلى الرئيسية",
+    subsidiaries: "تصفّح الشركات",
+  },
+  careers: {
+    metaTitle: "الوظائف — مجموعة فلورا ذ.م.م.",
+    metaDescription:
+      "انضمّ إلى مجموعة فلورا في الدوحة، قطر. استكشف الوظائف الشاغرة في التقنية والأمن والتجارة وتوريد الزهور والمقاولات.",
+    eyebrow: "الوظائف",
+    heroImageAlt: "فريق أعمال متنوّع يتعاون في اجتماع بمكتب حديث",
+    title: "اصنع مستقبل قطر مع علامةٍ عريقة.",
+    subtitle:
+      "على مدى أكثر من ثلاثة عقود، جذبت مجموعة فلورا المواهب الاستثنائية لبناء التقنية وتأمين البنية التحتية والتجارة الراقية في المنطقة. فصلك القادم يبدأ هنا.",
+    viewRoles: "عرض الوظائف الشاغرة",
+    generalApply: "طلب عام",
+    stats: {
+      years: "عاماً من التميّز",
+      verticals: "قطاعات استراتيجية",
+      partners: "شريكاً عالمياً",
+      team: "عضواً في الفريق",
+    },
+    culture: {
+      eyebrow: "لماذا مجموعة فلورا",
+      title: "حيث يلتقي الطموح بالنزاهة.",
+      description:
+        "نجمع بين امتداد مجموعةٍ متنوّعة وثقافة الملكية في الشركات المتخصّصة — منحك مساحةً للنمو دون أن تفقد معنى عملك.",
+      values: [
+        {
+          title: "نموّ هادف",
+          body: "تطوّر عبر ستّة قطاعات مع إرشاد وتدريب ومسارات واضحة نحو القيادة.",
+        },
+        {
+          title: "معايير لا تُساوم",
+          body: "أمنٌ معتمد من الداخلية ومعايير جودة دولية وأخلاقيات في كلّ مستوى.",
+        },
+        {
+          title: "أثرٌ إقليمي",
+          body: "ساهم في مشاريع تُشكّل القطاعين العام والخاص في قطر لعقود.",
+        },
+        {
+          title: "الإنسان أولاً",
+          body: "ثقافة تعاونية تكافئ المبادرة والمساءلة والتفكير طويل الأمد.",
+        },
+      ],
+    },
+    benefits: {
+      eyebrow: "الحياة في فلورا",
+      title: "مزايا صُمّمت لمساراتٍ مهنيةٍ دائمة.",
+      items: [
+        "حزم تعويضات تنافسية",
+        "دعم الصحة والعافية",
+        "برامج التطوير المهني",
+        "بيئة فريقٍ متعدّدة الثقافات",
+        "حركةٌ مهنية بين الشركات التابعة",
+        "مشاريع متوافقة مع رؤية قطر ٢٠٣٠",
+      ],
+    },
+    positions: {
+      eyebrow: "الوظائف الشاغرة",
+      title: "الفرص الحالية.",
+      description:
+        "استكشف الأدوار عبر شركاتنا التابعة. اختر وظيفةً لملء طلبك مسبقاً — سيتم ربط النظام الكامل بقسم الموارد البشرية قريباً.",
+      filterLabel: "تصفية حسب القسم",
+      noResults: "لا توجد وظائف تطابق هذا التصفية.",
+      apply: "قدّم الآن",
+      location: "الموقع",
+      type: "نوع التوظيف",
+      subsidiary: "الشركة",
+    },
+    application: {
+      eyebrow: "التقديم",
+      title: "أرسل طلبك.",
+      description:
+        "أكمل النموذج أدناه وسيراجع فريق المواهب ملفك. سيتم ربط المعالجة الخلفية قريباً.",
+      fullName: "الاسم الكامل",
+      email: "البريد الإلكتروني",
+      phone: "الهاتف",
+      position: "الوظيفة",
+      positionPlaceholder: "اختر دوراً أو طلباً عاماً",
+      generalOption: "طلب عام — مفتوح لجميع الأدوار",
+      linkedin: "ملف LinkedIn",
+      linkedinPlaceholder: "https://linkedin.com/in/...",
+      resume: "السيرة الذاتية",
+      resumeHint: "PDF أو DOC، بحد أقصى ٥ ميجابايت (رفع الملفات قريباً)",
+      coverLetter: "خطاب التقديم",
+      coverPlaceholder: "أخبرنا لماذا ستكون إضافةً مميّزة لمجموعة فلورا...",
+      submit: "إرسال الطلب",
+      successTitle: "تمّ استلام طلبك",
+      successBody:
+        "شكراً لاهتمامك بمجموعة فلورا. سيراجع فريق الموارد البشرية طلبك ويتواصل معك عند وجود تطابق.",
+      submitAnother: "إرسال طلب آخر",
+      required: "مطلوب",
+    },
+    cta: {
+      title: "لم تجد الدور المناسب؟",
+      body: "أرسل سيرتك الذاتية إلى فريق المواهب — نبحث دائماً عن أشخاصٍ استثنائيين في جميع القطاعات.",
+      email: "careers@floragroup.net",
+      button: "راسل فريق الموارد البشرية",
+    },
+  },
+}
+
+export const MESSAGES: Record<Locale, Messages> = { en, ar }

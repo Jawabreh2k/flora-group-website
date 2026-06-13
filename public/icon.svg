@@ -1,0 +1,28 @@
+<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gold" x1="30" y1="20" x2="150" y2="160">
+      <stop offset="0%" stop-color="#b8956a" />
+      <stop offset="50%" stop-color="#e8d4b8" />
+      <stop offset="100%" stop-color="#a88458" />
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#e8d4b8" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#c5a880" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="180" height="180" rx="40" fill="#4A0E17" />
+  <circle cx="90" cy="90" r="72" fill="url(#glow)" />
+  <!-- Six petals -->
+  <ellipse cx="90" cy="42" rx="18" ry="30" fill="url(#gold)" opacity="0.9" />
+  <ellipse cx="90" cy="138" rx="18" ry="30" fill="url(#gold)" opacity="0.9" />
+  <ellipse cx="42" cy="90" rx="30" ry="18" fill="url(#gold)" opacity="0.9" />
+  <ellipse cx="138" cy="90" rx="30" ry="18" fill="url(#gold)" opacity="0.9" />
+  <ellipse cx="54" cy="54" rx="18" ry="30" transform="rotate(-45 54 54)" fill="url(#gold)" opacity="0.9" />
+  <ellipse cx="126" cy="126" rx="18" ry="30" transform="rotate(-45 126 126)" fill="url(#gold)" opacity="0.9" />
+  <!-- Iris rings -->
+  <circle cx="90" cy="90" r="38" stroke="url(#gold)" stroke-width="3" opacity="0.5" />
+  <circle cx="90" cy="90" r="22" stroke="url(#gold)" stroke-width="3" opacity="0.7" />
+  <!-- Core -->
+  <circle cx="90" cy="90" r="10" fill="url(#gold)" />
+  <circle cx="90" cy="90" r="4" fill="#4A0E17" />
+</svg>
