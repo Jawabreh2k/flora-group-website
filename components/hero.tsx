@@ -21,7 +21,7 @@ const item = {
 }
 
 export function Hero() {
-  const { t, locale } = useI18n()
+  const { t, locale, images } = useI18n()
   const trust = [
     { icon: Layers, label: t.hero.trustVerticals },
     { icon: ShieldCheck, label: t.hero.trustCertified },
@@ -109,7 +109,7 @@ export function Hero() {
         >
           <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-primary/15 shadow-luxe transition-shadow duration-500 group-hover/visual:shadow-[0_30px_60px_-24px_rgba(74,14,23,0.45)] sm:aspect-[5/5] lg:aspect-[4/4.4]">
             <Image
-              src="/images/hero-doha.jpg"
+              src={images.heroImage}
               alt={t.hero.caption}
               fill
               priority
@@ -126,7 +126,7 @@ export function Hero() {
             {/* Official logo watermark */}
             <div className="absolute inset-x-0 bottom-6 flex flex-col items-center gap-3 px-6">
               <Image
-                src="/images/flora-group-logo.png"
+                src={images.logo}
                 alt=""
                 width={180}
                 height={100}

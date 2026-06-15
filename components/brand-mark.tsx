@@ -1,8 +1,9 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
+import { useI18n } from "@/components/i18n-provider"
 import { cn } from "@/lib/utils"
-
-const LOGO_SRC = "/images/flora-group-logo.png"
 
 export function BrandMark({
   href = "/#home",
@@ -15,6 +16,8 @@ export function BrandMark({
   className?: string
   compact?: boolean
 }) {
+  const { images } = useI18n()
+
   return (
     <Link
       href={href}
@@ -25,7 +28,7 @@ export function BrandMark({
       aria-label="Flora Group — home"
     >
       <Image
-        src={LOGO_SRC}
+        src={images.logo}
         alt="Flora Group W.L.L."
         width={compact ? 160 : 200}
         height={compact ? 48 : 72}
