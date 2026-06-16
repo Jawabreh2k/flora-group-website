@@ -95,7 +95,7 @@ export function JobBoard() {
       ).sort()
       setDepartments(uniqueDepartments)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load jobs')
+      setError(err instanceof Error ? err.message : t.careers.ui.loadError)
       setJobs([])
     } finally {
       setIsLoading(false)
@@ -127,7 +127,7 @@ export function JobBoard() {
         })),
       },
       {
-        title: 'Location type',
+        title: t.careers.ui.filterLocation,
         options: LOCATION_TYPES.map((value) => ({
           value,
           label: formatEnumLabel(value),
@@ -140,7 +140,7 @@ export function JobBoard() {
         })),
       },
       {
-        title: 'Job type',
+        title: t.careers.ui.filterJobType,
         options: JOB_TYPES.map((value) => ({
           value,
           label: formatEnumLabel(value),
@@ -153,7 +153,7 @@ export function JobBoard() {
         })),
       },
     ],
-    [departments, filters.departments, filters.jobTypes, filters.locationTypes, t.careers.positions.filterLabel],
+    [departments, filters.departments, filters.jobTypes, filters.locationTypes, t.careers.positions.filterLabel, t.careers.ui.filterLocation, t.careers.ui.filterJobType],
   )
 
   return (
@@ -178,7 +178,7 @@ export function JobBoard() {
                       setPage(1)
                       setFilters((current) => ({ ...current, search: event.target.value }))
                     }}
-                    placeholder="Search roles or companies"
+                    placeholder={t.careers.ui.searchPlaceholder}
                     className="h-11 w-full rounded-md border border-input bg-background ps-10 pe-3 text-sm focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold"
                   />
                 </div>
@@ -290,7 +290,9 @@ export function JobBoard() {
 
                   <Reveal className="mt-8 flex items-center justify-between">
                     <p className="text-sm text-muted-foreground">
-                      Showing {jobs.length} of {totalCount} roles
+                      {t.careers.ui.showingRoles
+                        .replace("{shown}", String(jobs.length))
+                        .replace("{total}", String(totalCount))}
                     </p>
                     <div className="flex gap-2">
                       <button
@@ -302,7 +304,7 @@ export function JobBoard() {
                           'disabled:opacity-40',
                         )}
                       >
-                        Previous
+                        {t.careers.ui.previous}
                       </button>
                       <button
                         type="button"
@@ -313,7 +315,7 @@ export function JobBoard() {
                           'disabled:opacity-40',
                         )}
                       >
-                        Next
+                        {t.careers.ui.next}
                       </button>
                     </div>
                   </Reveal>
@@ -323,7 +325,7 @@ export function JobBoard() {
               {isLoading && (
                 <div className="mt-6 flex items-center justify-center gap-2 text-sm text-muted-foreground">
                   <Loader2 className="size-4 animate-spin" />
-                  Loading open roles…
+                  {t.careers.ui.loading}
                 </div>
               )}
             </div>

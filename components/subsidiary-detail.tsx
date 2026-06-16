@@ -1,5 +1,6 @@
 "use client"
 
+import { useMemo } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import {
@@ -18,7 +19,10 @@ import {
   getSubsidiary,
   getRelatedSubsidiaries,
   localizeSubsidiary,
+  convertManagedToSubsidiary,
 } from "@/lib/subsidiaries"
+import type { ManagedSubsidiary } from "@/lib/ui-config/types"
+import { SUBSIDIARY_ICON_MAP } from "@/lib/subsidiary-icons"
 import { SubsidiaryCard } from "@/components/subsidiary-card"
 import { BrandVisual } from "@/components/brand-visual"
 import { SectionHeading } from "@/components/section-heading"
@@ -28,10 +32,21 @@ import { buttonVariants } from "@/components/ui/button"
 import { useI18n } from "@/components/i18n-provider"
 import { cn } from "@/lib/utils"
 
-export function SubsidiaryDetail({ slug }: { slug: string }) {
+export function SubsidiaryDetail({
+  slug,
+  managed,
+}: {
+  slug: string
+  managed?: ManagedSubsidiary | null
+}) {
   const { locale, t } = useI18n()
-  const subsidiary = getSubsidiary(slug)
-  if (!subsidiary) return null
+  const subsidiary = useMemo(() => {
+    if (managed) return convertManagedToSubsidiary(managed, SUBSIDIARY_ICON_MAP)
+    return getSubsidiary(slug) ?? null
+  }, [slug, managed])
+
+  if (!subsidiary) return <div className="min-h-screen" />
+
   const s = localizeSubsidiary(subsidiary, locale)
   const { icon: Icon, contact } = s
   const related = getRelatedSubsidiaries(s.slug, 3)

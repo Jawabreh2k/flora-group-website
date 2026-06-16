@@ -15,11 +15,10 @@ import { Button } from '@/components/ui/button'
 import { useI18n } from '@/components/i18n-provider'
 import { submitApplication } from '@/lib/jobs/api'
 import type { JobListItem } from '@/lib/jobs/types'
+import { RESUME_ACCEPT, RESUME_MAX_BYTES } from '@/lib/jobs/validate-resume'
 import { cn } from '@/lib/utils'
 
 const EASE = [0.16, 1, 0.3, 1] as const
-const MAX_BYTES = 5 * 1024 * 1024
-const ACCEPT = '.pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document'
 
 type UploadState =
   | { status: 'idle' }
@@ -48,6 +47,19 @@ export function ApplicationSheet({
   const [isDragging, setIsDragging] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [resumeError, setResumeError] = useState<string | null>(null)
+
+  const getResumeValidationError = (file: File | null): string | null => {
+    if (!file || file.size === 0) return t.careers.application.resumeRequired
+    const extension = file.name.split('.').pop()?.toLowerCase()
+    if (extension !== 'pdf' && extension !== 'docx') {
+      return t.careers.application.resumeInvalidType
+    }
+    if (file.size > RESUME_MAX_BYTES) {
+      return t.careers.application.resumeTooLarge
+    }
+    return null
+  }
 
   useEffect(() => {
     if (!open) return
@@ -66,48 +78,47 @@ export function ApplicationSheet({
       setCoverLetter('')
       setResume(null)
       setUploadState({ status: 'idle' })
+      setResumeError(null)
       setSubmitting(false)
       setSubmitted(false)
     }
   }, [open])
 
-  const validateFile = (file: File): string | null => {
-    const extension = file.name.split('.').pop()?.toLowerCase()
-    if (extension !== 'pdf' && extension !== 'docx') {
-      return 'Only PDF and DOCX files are allowed.'
-    }
-    if (file.size > MAX_BYTES) {
-      return 'Error: File too large (max 5 MB).'
-    }
-    return null
-  }
-
   const handleFile = (file: File | undefined) => {
     if (!file) return
-    const error = validateFile(file)
+    const error = getResumeValidationError(file)
     if (error) {
       setResume(null)
+      setResumeError(error)
       setUploadState({ status: 'error', message: error })
       return
     }
     setResume(file)
+    setResumeError(null)
     setUploadState({ status: 'selected', fileName: file.name })
   }
 
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    if (!job || !resume) return
+    if (!job) return
+
+    const missingResumeError = getResumeValidationError(resume)
+    if (missingResumeError) {
+      setResumeError(missingResumeError)
+      setUploadState({ status: 'error', message: missingResumeError })
+      return
+    }
 
     setSubmitting(true)
     setUploadState({ status: 'uploading' })
 
     try {
       await submitApplication(job.id, {
-        candidateName: name,
-        candidateEmail: email,
-        candidatePhone: phone || undefined,
-        coverLetter: coverLetter || undefined,
-        resume,
+        candidateName: name.trim(),
+        candidateEmail: email.trim(),
+        candidatePhone: phone.trim() || undefined,
+        coverLetter: coverLetter.trim() || undefined,
+        resume: resume!,
       })
       setUploadState({ status: 'success' })
       setSubmitted(true)
@@ -215,10 +226,23 @@ export function ApplicationSheet({
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-foreground">
+                    <label htmlFor="apply-resume" className="text-sm font-medium text-foreground">
                       {t.careers.application.resume}
+                      <span className="text-gold"> *</span>
                     </label>
                     <div
+                      id="apply-resume"
+                      role="button"
+                      tabIndex={0}
+                      aria-required="true"
+                      aria-invalid={resumeError ? true : undefined}
+                      aria-describedby={resumeError ? 'apply-resume-error' : undefined}
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter' || event.key === ' ') {
+                          event.preventDefault()
+                          fileInputRef.current?.click()
+                        }
+                      }}
                       onDragOver={(event) => {
                         event.preventDefault()
                         setIsDragging(true)
@@ -232,9 +256,11 @@ export function ApplicationSheet({
                       onClick={() => fileInputRef.current?.click()}
                       className={cn(
                         'flex cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border border-dashed px-4 py-8 text-center transition-colors',
-                        isDragging
-                          ? 'border-gold bg-gold/10'
-                          : 'border-border bg-muted/40 hover:border-gold/50 hover:bg-muted/60',
+                        resumeError
+                          ? 'border-destructive/60 bg-destructive/5'
+                          : isDragging
+                            ? 'border-gold bg-gold/10'
+                            : 'border-border bg-muted/40 hover:border-gold/50 hover:bg-muted/60',
                       )}
                     >
                       <Upload className="size-6 text-gold" />
@@ -264,7 +290,10 @@ export function ApplicationSheet({
                         </p>
                       )}
                       {uploadState.status === 'error' && (
-                        <p className="inline-flex items-center gap-2 text-sm text-destructive">
+                        <p
+                          id="apply-resume-error"
+                          className="inline-flex items-center gap-2 text-sm text-destructive"
+                        >
                           <AlertCircle className="size-4" />
                           {uploadState.message}
                         </p>
@@ -272,14 +301,21 @@ export function ApplicationSheet({
                     </div>
                     <input
                       ref={fileInputRef}
+                      id="apply-resume-input"
                       type="file"
-                      accept={ACCEPT}
+                      accept={RESUME_ACCEPT}
+                      required
                       className="sr-only"
                       onChange={(event) => handleFile(event.target.files?.[0])}
                     />
+                    {resumeError && uploadState.status !== 'error' && (
+                      <p id="apply-resume-error" className="text-sm text-destructive">
+                        {resumeError}
+                      </p>
+                    )}
                   </div>
 
-                  <Button type="submit" size="lg" className="h-11 w-full gap-2" disabled={submitting || !resume}>
+                  <Button type="submit" size="lg" className="h-11 w-full gap-2" disabled={submitting}>
                     {submitting ? (
                       <Loader2 className="size-4 animate-spin" />
                     ) : (

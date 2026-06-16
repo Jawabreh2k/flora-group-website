@@ -5,19 +5,19 @@ import { Subsidiaries } from "@/components/subsidiaries"
 import { Spotlight } from "@/components/spotlight"
 import { SiteFooter } from "@/components/site-footer"
 import { getUiConfig } from "@/lib/ui-config"
+import { getSubsidiariesData } from "@/lib/subsidiaries-config"
 
 export default async function Page() {
-  // Section visibility is CMS-driven. The fetch is deduped with the layout's call.
-  const { sections } = await getUiConfig()
+  const [{ sections }, subsidiaries] = await Promise.all([getUiConfig(), getSubsidiariesData()])
 
   return (
     <main className="min-h-screen bg-background">
       <SiteNav />
       <Hero />
       {sections.showStats && <Stats />}
-      {sections.showSubsidiaries && <Subsidiaries />}
+      {sections.showSubsidiaries && <Subsidiaries items={subsidiaries} />}
       {sections.showSpotlight && <Spotlight />}
-      <SiteFooter />
+      <SiteFooter subsidiaries={subsidiaries} />
     </main>
   )
 }

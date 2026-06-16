@@ -21,14 +21,15 @@ const item = {
 }
 
 export function Hero() {
-  const { t, locale, images } = useI18n()
+  const { t, images } = useI18n()
   const trust = [
     { icon: Layers, label: t.hero.trustVerticals },
     { icon: ShieldCheck, label: t.hero.trustCertified },
     { icon: Globe2, label: t.hero.trustCountries },
   ]
-  const six = locale === "ar" ? "٦" : "6"
-  const thirty = locale === "ar" ? "+٣٠" : "30+"
+  const careerStats = t.careers.stats as typeof t.careers.stats & { yearsValue?: string }
+  const verticalsValue = t.stats.verticalsValue || "6"
+  const yearsValue = careerStats.yearsValue || "30+"
 
   return (
     <section id="home" className="relative overflow-hidden pt-16 lg:pt-20">
@@ -146,7 +147,7 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.7, ease: EASE }}
             className="animate-float absolute -left-4 top-8 hidden rounded-2xl border border-gold/30 bg-background/95 px-5 py-4 text-start shadow-luxe backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-gold/50 hover:shadow-[0_12px_32px_-12px_rgba(74,14,23,0.25)] sm:block"
           >
-            <p className="font-serif text-2xl font-semibold text-primary">{six}</p>
+            <p className="font-serif text-2xl font-semibold text-primary">{verticalsValue}</p>
             <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
               {t.hero.cardVerticals}
             </p>
@@ -159,7 +160,7 @@ export function Hero() {
             className="absolute -right-4 bottom-16 hidden rounded-2xl border border-gold/30 bg-background/95 px-5 py-4 text-start shadow-luxe backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-gold/50 hover:shadow-[0_12px_32px_-12px_rgba(74,14,23,0.25)] sm:block"
             style={{ animation: "float 7s ease-in-out 1.5s infinite" }}
           >
-            <p className="font-serif text-2xl font-semibold text-primary">{thirty}</p>
+            <p className="font-serif text-2xl font-semibold text-primary">{yearsValue}</p>
             <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
               {t.hero.cardYears}
             </p>

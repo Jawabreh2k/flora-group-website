@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { env } from '@/lib/env'
+import { getResumeFromFormData, validateResumeFile } from '@/lib/jobs/validate-resume'
 
 type Params = { params: Promise<{ id: string }> }
 
@@ -8,6 +9,22 @@ export async function POST(request: Request, { params }: Params) {
 
   try {
     const formData = await request.formData()
+
+    const candidateName = String(formData.get('candidateName') ?? '').trim()
+    const candidateEmail = String(formData.get('candidateEmail') ?? '').trim()
+    if (!candidateName) {
+      return NextResponse.json({ error: 'Full name is required.' }, { status: 400 })
+    }
+    if (!candidateEmail) {
+      return NextResponse.json({ error: 'Email is required.' }, { status: 400 })
+    }
+
+    const resume = getResumeFromFormData(formData)
+    const resumeError = validateResumeFile(resume)
+    if (resumeError) {
+      return NextResponse.json({ error: resumeError }, { status: 400 })
+    }
+
     const res = await fetch(`${env.apiUrl}/api/jobs/${id}/apply`, {
       method: 'POST',
       body: formData,

@@ -1,7 +1,8 @@
 /**
  * Mirrors the `UiConfigResponse` / `UiConfigPayload` contract served by the
- * Flora CMS API (`GET /api/ui/config`). Kept in sync with the C# DTOs in
- * `Flora.Cms.Api/Dtos/UiConfigPayload.cs`.
+ * Flora CMS API (`GET /api/ui/config`).
+ * SYNC: flora-admin-portal/lib/types.ts, DefaultContent.cs, messages.ts
+ * Checklist: docs/CMS_CONTRACT_SYNC.md
  */
 
 /** Brand colour tokens — each maps onto a CSS custom property at runtime. */
@@ -49,9 +50,52 @@ export type Sections = {
 export type Images = {
   logo: string
   heroImage: string
+  contactHero: string
+  careersHero: string
 }
 
 import type { Locale } from "@/lib/i18n/messages"
+
+export type Highlight = { title: string; body: string }
+export type Metric = { value: string; label: string }
+export type Localized<T> = Record<Locale, T>
+
+export type SubsidiaryContact = {
+  address: Localized<string>
+  phone?: string
+  fax?: string
+  email?: string
+}
+
+export type ManagedSubsidiary = {
+  slug: string
+  icon: string
+  name: Localized<string>
+  tag: Localized<string>
+  short: Localized<string>
+  established: Localized<string>
+  visual: { from: string; to: string; glow: string }
+  image?: string
+  logo?: string
+  paragraphs: Localized<string[]>
+  highlights: Localized<Highlight[]>
+  metrics: Localized<Metric[]>
+  website: string
+  hasProfile: boolean
+  contact: SubsidiaryContact
+}
+
+export type SocialPlatform = 'linkedin' | 'instagram' | 'facebook' | 'x' | 'youtube'
+
+export type SocialLink = {
+  platform: SocialPlatform
+  url: string
+}
+
+export type Social = {
+  enabled: boolean
+  links: SocialLink[]
+}
 
 /**
  * A single flat CMS content group (group-key → string value).
@@ -68,6 +112,9 @@ export type CmsContent = {
   hero?: CmsFlatGroup
   subsidiaries?: CmsFlatGroup
   spotlight?: CmsFlatGroup
+  nav?: CmsFlatGroup
+  stats?: CmsFlatGroup
+  pages?: CmsFlatGroup
   footer?: CmsFlatGroup
   contact?: CmsFlatGroup
   careersHero?: CmsFlatGroup
@@ -75,6 +122,9 @@ export type CmsContent = {
   careersBenefits?: CmsFlatGroup
   careersPositions?: CmsFlatGroup
   careersCta?: CmsFlatGroup
+  careersStats?: CmsFlatGroup
+  careersCultureValues?: CmsFlatGroup
+  careersUi?: CmsFlatGroup
 }
 
 export type ContentOverrides = Partial<Record<Locale, CmsContent>>
@@ -85,6 +135,11 @@ export type UiConfigPayload = {
   sections: Sections
   images: Images
   content?: ContentOverrides
+  social?: Social
+  subsidiaries?: {
+    enabled: boolean
+    items: ManagedSubsidiary[]
+  }
 }
 
 export type UiConfig = {

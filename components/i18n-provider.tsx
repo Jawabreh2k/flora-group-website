@@ -9,7 +9,7 @@ import {
   useState,
 } from "react"
 import { MESSAGES, type Locale, type Messages } from "@/lib/i18n/messages"
-import type { CmsContent, ContentOverrides, Images } from "@/lib/ui-config/types"
+import type { CmsContent, ContentOverrides, Images, Social } from "@/lib/ui-config/types"
 
 type Direction = "ltr" | "rtl"
 
@@ -17,8 +17,8 @@ type I18nValue = {
   locale: Locale
   dir: Direction
   t: Messages
-  /** CMS-managed images, with code defaults already applied. */
   images: Images
+  social?: Social
   setLocale: (l: Locale) => void
   toggle: () => void
 }
@@ -29,12 +29,25 @@ const STORAGE_KEY = "flora-locale"
 const DEFAULT_IMAGES: Images = {
   logo: "/images/flora-group-logo.png",
   heroImage: "/images/hero-doha.jpg",
+  contactHero: "/images/contact-doha.jpg",
+  careersHero: "/images/careers-hero.jpg",
+}
+
+function cultureValuesFromCms(cms: CmsContent) {
+  const v = cms.careersCultureValues
+  if (!v) return undefined
+  const items = [
+    { title: v.value1Title, body: v.value1Body },
+    { title: v.value2Title, body: v.value2Body },
+    { title: v.value3Title, body: v.value3Body },
+    { title: v.value4Title, body: v.value4Body },
+  ].filter((item) => item.title || item.body)
+  return items.length > 0 ? items : undefined
 }
 
 /**
  * Maps the flat CMS content groups (as stored in the DB) to the nested Messages
- * shape expected by deepMerge. Groups like careersHero / careersCulture get
- * assembled into `careers: { ...hero, culture: {...}, ... }`.
+ * shape expected by deepMerge.
  */
 function cmsToMessages(cms: CmsContent): Partial<Messages> {
   const hasCareersPart =
@@ -42,21 +55,37 @@ function cmsToMessages(cms: CmsContent): Partial<Messages> {
     cms.careersCulture ||
     cms.careersBenefits ||
     cms.careersPositions ||
-    cms.careersCta
+    cms.careersCta ||
+    cms.careersStats ||
+    cms.careersCultureValues ||
+    cms.careersUi
+
+  const cultureValues = cultureValuesFromCms(cms)
 
   return {
     ...(cms.hero && { hero: cms.hero as unknown as Messages["hero"] }),
+    ...(cms.nav && { nav: cms.nav as unknown as Messages["nav"] }),
+    ...(cms.stats && { stats: cms.stats as unknown as Messages["stats"] }),
     ...(cms.subsidiaries && { subsidiaries: cms.subsidiaries as unknown as Messages["subsidiaries"] }),
     ...(cms.spotlight && { spotlight: cms.spotlight as unknown as Messages["spotlight"] }),
     ...(cms.footer && { footer: cms.footer as unknown as Messages["footer"] }),
     ...(cms.contact && { contact: cms.contact as unknown as Messages["contact"] }),
     ...(hasCareersPart && {
       careers: {
+        ...(cms.pages?.careersMetaTitle && { metaTitle: cms.pages.careersMetaTitle }),
+        ...(cms.pages?.careersMetaDescription && { metaDescription: cms.pages.careersMetaDescription }),
         ...cms.careersHero,
-        ...(cms.careersCulture && { culture: cms.careersCulture }),
+        ...(cms.careersCulture && {
+          culture: {
+            ...cms.careersCulture,
+            ...(cultureValues && { values: cultureValues }),
+          },
+        }),
         ...(cms.careersBenefits && { benefits: cms.careersBenefits }),
         ...(cms.careersPositions && { positions: cms.careersPositions }),
         ...(cms.careersCta && { cta: cms.careersCta }),
+        ...(cms.careersStats && { stats: cms.careersStats as unknown as Messages["careers"]["stats"] }),
+        ...(cms.careersUi && { ui: cms.careersUi as unknown as Messages["careers"]["ui"] }),
       } as unknown as Messages["careers"],
     }),
   }
@@ -73,7 +102,6 @@ function deepMerge<T>(base: T, override: unknown): T {
     typeof base !== "object" ||
     base == null
   ) {
-    // Empty string → keep the bundled default
     if (typeof override === "string" && override === "") return base as T
     return (override ?? base) as T
   }
@@ -89,15 +117,13 @@ export function I18nProvider({
   children,
   content,
   images,
+  social,
 }: {
   children: React.ReactNode
-  /** Bilingual copy overrides fetched from the CMS (server-rendered). */
   content?: ContentOverrides
-  /** CMS image URLs (server-rendered). */
   images?: Partial<Images>
+  social?: Social
 }) {
-  // Always start at the server-rendered default to avoid hydration mismatch;
-  // the saved preference is applied in an effect after mount.
   const [locale, setLocaleState] = useState<Locale>("en")
 
   useEffect(() => {
@@ -136,7 +162,6 @@ export function I18nProvider({
     })
   }, [])
 
-  // Layer CMS copy overrides on top of the bundled dictionary for the active locale.
   const t = useMemo<Messages>(() => {
     const base = MESSAGES[locale]
     const cms = content?.[locale]
@@ -153,6 +178,7 @@ export function I18nProvider({
     dir: locale === "ar" ? "rtl" : "ltr",
     t,
     images: resolvedImages,
+    social,
     setLocale,
     toggle,
   }

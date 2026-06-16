@@ -35,6 +35,8 @@ export const getUiConfig = cache(async (): Promise<UiConfigPayload> => {
       sections: { ...DEFAULT_UI_CONFIG.sections, ...data.payload?.sections },
       images: { ...DEFAULT_UI_CONFIG.images, ...data.payload?.images },
       content: data.payload?.content,
+      social: data.payload?.social,
+      subsidiaries: data.payload?.subsidiaries,
     }
   } catch (err) {
     console.error("[ui-config] Failed to reach CMS; using defaults.", err)

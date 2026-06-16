@@ -66,7 +66,7 @@ export default async function RootLayout({
   // Fetch the live theme and map it onto CSS variables rendered into the HTML.
   // Overriding the raw `--primary` / `--gold` / ... tokens re-themes every Tailwind
   // utility instantly, server-side, with no rebuild and no flash of the old theme.
-  const { theme, content, images } = await getUiConfig()
+  const { theme, content, images, social } = await getUiConfig()
 
   return (
     <html
@@ -76,7 +76,7 @@ export default async function RootLayout({
       style={themeToCssVars(theme)}
     >
       <body className="font-sans antialiased">
-        <I18nProvider content={content} images={images}>
+        <I18nProvider content={content} images={images} social={social}>
           {children}
         </I18nProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}

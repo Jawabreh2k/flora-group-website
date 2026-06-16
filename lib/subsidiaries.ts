@@ -645,3 +645,37 @@ export function getRelatedSubsidiaries(slug: string, count = 3): Subsidiary[] {
   // Rotate so related cards differ per page rather than always the first few.
   return [...others.slice(start), ...others.slice(0, start)].slice(0, count)
 }
+
+/**
+ * Converts a ManagedSubsidiary from the CMS config to a runtime Subsidiary.
+ * Maps icon names back to Lucide icon components.
+ */
+export function convertManagedToSubsidiary(
+  managed: any, // ManagedSubsidiary type
+  iconMap?: Record<string, LucideIcon>,
+): Subsidiary {
+  const getIcon = (name: string) => {
+    if (iconMap?.[name]) return iconMap[name]
+    // Fallback to finding in default SUBSIDIARIES
+    const found = SUBSIDIARIES.find((s) => s.icon.name === name)
+    return found?.icon || Package
+  }
+
+  return {
+    slug: managed.slug,
+    icon: getIcon(managed.icon),
+    name: managed.name,
+    tag: managed.tag,
+    short: managed.short,
+    established: managed.established,
+    visual: managed.visual,
+    image: managed.image,
+    logo: managed.logo,
+    paragraphs: managed.paragraphs,
+    highlights: managed.highlights,
+    metrics: managed.metrics,
+    website: managed.website,
+    hasProfile: managed.hasProfile,
+    contact: managed.contact,
+  }
+}

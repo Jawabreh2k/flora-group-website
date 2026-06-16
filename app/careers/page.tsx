@@ -2,19 +2,28 @@ import type { Metadata } from "next"
 import { SiteNav } from "@/components/site-nav"
 import { CareersContent } from "@/components/careers-content"
 import { SiteFooter } from "@/components/site-footer"
-import { MESSAGES, DEFAULT_LOCALE } from "@/lib/i18n/messages"
+import { getUiConfig } from "@/lib/ui-config"
+import { getSubsidiariesData } from "@/lib/subsidiaries-config"
 
-export const metadata: Metadata = {
-  title: MESSAGES[DEFAULT_LOCALE].careers.metaTitle,
-  description: MESSAGES[DEFAULT_LOCALE].careers.metaDescription,
+export async function generateMetadata(): Promise<Metadata> {
+  const { content } = await getUiConfig()
+  const pages = content?.en?.pages
+  return {
+    title: pages?.careersMetaTitle ?? "Careers — Flora Group W.L.L.",
+    description:
+      pages?.careersMetaDescription ??
+      "Join Flora Group W.L.L. in Doha, Qatar. Explore open roles across technology, security, trading, floral supply, and construction.",
+  }
 }
 
-export default function CareersPage() {
+export default async function CareersPage() {
+  const subsidiaries = await getSubsidiariesData()
+
   return (
     <main className="min-h-screen bg-background">
       <SiteNav variant="solid" />
       <CareersContent />
-      <SiteFooter />
+      <SiteFooter subsidiaries={subsidiaries} />
     </main>
   )
 }

@@ -48,6 +48,8 @@ export const DEFAULT_UI_CONFIG: UiConfigPayload = {
   images: {
     logo: "/images/flora-group-logo.png",
     heroImage: "/images/hero-doha.jpg",
+    contactHero: "/images/contact-doha.jpg",
+    careersHero: "/images/careers-hero.jpg",
   },
   // content is intentionally omitted — when absent the site uses its bundled i18n copy.
 }

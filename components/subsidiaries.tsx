@@ -1,14 +1,21 @@
-"use client"
+'use client'
 
-import { SUBSIDIARIES } from "@/lib/subsidiaries"
-import { SubsidiaryCard } from "@/components/subsidiary-card"
-import { SectionHeading } from "@/components/section-heading"
-import { Container } from "@/components/ui/container"
-import { RevealGroup, RevealItem } from "@/components/reveal"
-import { useI18n } from "@/components/i18n-provider"
+import { useMemo } from 'react'
+import type { ManagedSubsidiary } from '@/lib/ui-config/types'
+import { convertManagedToSubsidiary } from '@/lib/subsidiaries'
+import { SUBSIDIARY_ICON_MAP } from '@/lib/subsidiary-icons'
+import { SubsidiaryCard } from '@/components/subsidiary-card'
+import { SectionHeading } from '@/components/section-heading'
+import { Container } from '@/components/ui/container'
+import { RevealGroup, RevealItem } from '@/components/reveal'
+import { useI18n } from '@/components/i18n-provider'
 
-export function Subsidiaries() {
+export function Subsidiaries({ items }: { items: ManagedSubsidiary[] }) {
   const { t } = useI18n()
+  const subsidiaries = useMemo(
+    () => items.map((item) => convertManagedToSubsidiary(item, SUBSIDIARY_ICON_MAP)),
+    [items],
+  )
 
   return (
     <section id="subsidiaries" className="relative bg-background">
@@ -20,7 +27,7 @@ export function Subsidiaries() {
         />
 
         <RevealGroup className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {SUBSIDIARIES.map((s) => (
+          {subsidiaries.map((s) => (
             <RevealItem key={s.slug} className="h-full">
               <SubsidiaryCard subsidiary={s} />
             </RevealItem>

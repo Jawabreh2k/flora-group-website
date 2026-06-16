@@ -26,18 +26,25 @@ const EASE = [0.16, 1, 0.3, 1] as const
 const VALUE_ICONS = [GraduationCap, Target, Globe2, Heart] as const
 
 export function CareersContent() {
-  const { t, locale } = useI18n()
+  const { t, images } = useI18n()
   const positionsRef = useRef<HTMLElement>(null)
 
   const scrollToPositions = () => {
     positionsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
   }
 
+  const careerStats = t.careers.stats as typeof t.careers.stats & {
+    yearsValue?: string
+    verticalsValue?: string
+    partnersValue?: string
+    teamValue?: string
+  }
+
   const stats = [
-    { value: locale === "ar" ? "+٣٠" : "30+", label: t.careers.stats.years },
-    { value: locale === "ar" ? "٦" : "6", label: t.careers.stats.verticals },
-    { value: locale === "ar" ? "+٥٠" : "50+", label: t.careers.stats.partners },
-    { value: locale === "ar" ? "+٧٠" : "70+", label: t.careers.stats.team },
+    { value: careerStats.yearsValue ?? "30+", label: careerStats.years },
+    { value: careerStats.verticalsValue ?? "6", label: careerStats.verticals },
+    { value: careerStats.partnersValue ?? "50+", label: careerStats.partners },
+    { value: careerStats.teamValue ?? "70+", label: careerStats.team },
   ]
 
   return (
@@ -45,7 +52,7 @@ export function CareersContent() {
       {/* Hero */}
       <section className="relative isolate overflow-hidden text-white">
         <Image
-          src="/images/careers-hero.jpg"
+          src={images.careersHero}
           alt={t.careers.heroImageAlt}
           fill
           priority
