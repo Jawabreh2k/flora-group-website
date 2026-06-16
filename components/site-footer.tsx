@@ -6,21 +6,23 @@ import { MapPin, Phone, Mail, ArrowRight, ExternalLink } from "lucide-react"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { BrandMark } from "@/components/brand-mark"
 import { Container } from "@/components/ui/container"
-import { SUBSIDIARIES } from "@/lib/subsidiaries"
+import { SocialLinks } from "@/components/social-links"
 import { useI18n } from "@/components/i18n-provider"
+import type { ManagedSubsidiary } from "@/lib/ui-config/types"
 import { cn } from "@/lib/utils"
 
-export function SiteFooter() {
-  const { t, locale } = useI18n()
+export function SiteFooter({ subsidiaries = [] }: { subsidiaries?: ManagedSubsidiary[] }) {
+  const { t, locale, social } = useI18n()
   const [email, setEmail] = useState("")
   const [sent, setSent] = useState(false)
 
+  const telHref = t.footer.phone ? `tel:${t.footer.phone.replace(/\s/g, "")}` : undefined
+  const profileSubs = subsidiaries.filter((s) => s.hasProfile !== false)
+
   return (
     <footer id="contact" className="relative bg-primary text-primary-foreground">
-      {/* Gold top hairline */}
       <div className="h-px w-full bg-gradient-to-r from-transparent via-gold/60 to-transparent" />
 
-      {/* Careers band */}
       <div id="careers" className="border-b border-gold/15">
         <Container className="flex flex-col items-start justify-between gap-6 py-12 lg:flex-row lg:items-center">
           <div>
@@ -44,23 +46,21 @@ export function SiteFooter() {
         </Container>
       </div>
 
-      {/* Main footer */}
       <Container className="grid gap-12 py-16 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
-        {/* About */}
         <div>
           <BrandMark tone="light" />
           <p className="mt-5 max-w-xs text-sm leading-relaxed text-primary-foreground/65">
             {t.footer.about}
           </p>
+          <SocialLinks social={social} className="mt-6" />
         </div>
 
-        {/* Subsidiaries */}
         <div>
           <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">
             {t.footer.subsidiaries}
           </h3>
           <ul className="mt-5 space-y-2.5 text-sm text-primary-foreground/65">
-            {SUBSIDIARIES.map((s) => (
+            {profileSubs.map((s) => (
               <li key={s.slug}>
                 <Link
                   href={`/subsidiaries/${s.slug}`}
@@ -73,7 +73,6 @@ export function SiteFooter() {
           </ul>
         </div>
 
-        {/* Contact */}
         <div>
           <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">
             {t.footer.headOffice}
@@ -83,41 +82,46 @@ export function SiteFooter() {
               <MapPin className="mt-0.5 size-4 shrink-0 text-gold" />
               <span>{t.footer.address}</span>
             </li>
-            <li>
-              <a
-                href="tel:+97444810674"
-                dir="ltr"
-                className="flex items-center gap-3 transition-colors hover:text-primary-foreground rtl:flex-row-reverse rtl:justify-end"
-              >
-                <Phone className="size-4 text-gold" />
-                +974 4481 0674
-              </a>
-            </li>
-            <li>
-              <a
-                href="mailto:info@floragroup.net"
-                dir="ltr"
-                className="flex items-center gap-3 transition-colors hover:text-primary-foreground rtl:flex-row-reverse rtl:justify-end"
-              >
-                <Mail className="size-4 text-gold" />
-                info@floragroup.net
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://maps.google.com/?q=Flora+Building+Rawdat+Al+Khail+Doha+Qatar"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-3 transition-colors hover:text-primary-foreground"
-              >
-                <ExternalLink className="size-4 text-gold" />
-                {t.footer.openInMaps}
-              </a>
-            </li>
+            {t.footer.phoneDisplay && telHref && (
+              <li>
+                <a
+                  href={telHref}
+                  dir="ltr"
+                  className="flex items-center gap-3 transition-colors hover:text-primary-foreground rtl:flex-row-reverse rtl:justify-end"
+                >
+                  <Phone className="size-4 text-gold" />
+                  {t.footer.phoneDisplay}
+                </a>
+              </li>
+            )}
+            {t.footer.email && (
+              <li>
+                <a
+                  href={`mailto:${t.footer.email}`}
+                  dir="ltr"
+                  className="flex items-center gap-3 transition-colors hover:text-primary-foreground rtl:flex-row-reverse rtl:justify-end"
+                >
+                  <Mail className="size-4 text-gold" />
+                  {t.footer.email}
+                </a>
+              </li>
+            )}
+            {t.footer.mapsUrl && (
+              <li>
+                <a
+                  href={t.footer.mapsUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-3 transition-colors hover:text-primary-foreground"
+                >
+                  <ExternalLink className="size-4 text-gold" />
+                  {t.footer.openInMaps}
+                </a>
+              </li>
+            )}
           </ul>
         </div>
 
-        {/* Newsletter */}
         <div>
           <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">
             {t.footer.globalInquiries}
@@ -159,11 +163,11 @@ export function SiteFooter() {
         </div>
       </Container>
 
-      {/* Bottom bar */}
       <div className="border-t border-primary-foreground/10">
         <Container className="flex flex-col items-center justify-between gap-2 py-6 text-xs text-primary-foreground/50 sm:flex-row">
           <p>
-            © {new Date().getFullYear()} Flora Group W.L.L. {t.footer.rights}
+            © {new Date().getFullYear()} {t.footer.companyName ?? "Flora Group W.L.L."}{" "}
+            {t.footer.rightsText ?? t.footer.rights}
           </p>
           <p>{t.footer.tagline}</p>
         </Container>

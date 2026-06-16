@@ -1,8 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  typescript: {
-    ignoreBuildErrors: true,
-  },
+  // Type errors now fail the build — the strict tsconfig is only worth anything if
+  // the build actually enforces it.
   images: {
     unoptimized: true,
   },

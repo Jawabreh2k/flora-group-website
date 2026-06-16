@@ -8,28 +8,32 @@ import { useI18n } from "@/components/i18n-provider"
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
+function parseStatValue(raw: string): { count?: { value: number; suffix?: string }; static?: string } {
+  if (!raw?.trim()) return {}
+  const trimmed = raw.trim()
+  const plusMatch = trimmed.match(/^(\d+)\+$/)
+  if (plusMatch) return { count: { value: Number(plusMatch[1]), suffix: "+" } }
+  if (/^\d+$/.test(trimmed)) return { count: { value: Number(trimmed) } }
+  return { static: trimmed }
+}
+
 export function Stats() {
   const { t, locale } = useI18n()
   const localeTag = locale === "ar" ? "ar-EG" : "en-US"
 
-  const stats = [
-    {
-      icon: CalendarDays,
-      label: t.stats.established,
-      count: { value: 1993, group: false },
-    },
-    { icon: Layers, label: t.stats.verticals, count: { value: 6 } },
-    {
-      icon: ShieldCheck,
-      label: t.stats.certified,
-      static: locale === "ar" ? "الداخلية" : "MOI",
-    },
-    {
-      icon: Globe2,
-      label: t.stats.countries,
-      count: { value: 26, suffix: "+" },
-    },
+  const statDefs = [
+    { icon: CalendarDays, label: t.stats.established, raw: t.stats.establishedValue },
+    { icon: Layers, label: t.stats.verticals, raw: t.stats.verticalsValue },
+    { icon: ShieldCheck, label: t.stats.certified, raw: t.stats.certifiedValue },
+    { icon: Globe2, label: t.stats.countries, raw: t.stats.countriesValue },
   ]
+
+  const stats = statDefs.map((s) => {
+    const parsed = parseStatValue(s.raw)
+    if (parsed.static) return { ...s, static: parsed.static }
+    if (parsed.count) return { ...s, count: parsed.count }
+    return { ...s, static: s.raw }
+  })
 
   return (
     <section id="legacy" className="relative border-y border-border bg-card">
@@ -48,15 +52,14 @@ export function Stats() {
                 <s.icon className="size-5" strokeWidth={1.7} />
               </span>
               <p className="font-serif text-3xl font-semibold tracking-tight text-primary lg:text-4xl">
-                {s.count ? (
+                {"count" in s && s.count ? (
                   <CountUp
                     value={s.count.value}
                     suffix={s.count.suffix}
-                    group={s.count.group}
                     localeTag={localeTag}
                   />
                 ) : (
-                  s.static
+                  ("static" in s && s.static) || ""
                 )}
               </p>
               <p className="text-sm leading-relaxed text-muted-foreground">

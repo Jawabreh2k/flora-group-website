@@ -11,13 +11,18 @@ import {
   Clock,
   Send,
   CheckCircle2,
+  Loader2,
+  AlertCircle,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useI18n } from "@/components/i18n-provider"
+import { buildMapEmbedSrc } from "@/lib/maps"
 
 export function ContactContent() {
-  const { t, locale } = useI18n()
+  const { t, locale, images } = useI18n()
   const [sent, setSent] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -29,23 +34,17 @@ export function ContactContent() {
   const offices = [
     {
       name: t.contact.headOfficeName,
-      address:
-        locale === "ar"
-          ? "مبنى فلورا، شارع روضة الخيل، الهلال، مبنى رقم ١٢٧، شارع ٣٣٠، المنطقة ٤١، النعيجة (الهلال الغربي)، الدوحة، قطر. ص.ب: ١٦١١٨."
-          : "Flora Building, Rawdat Al Khail St, Al Helal, Bldg No 127, Street no. 330, Zone no. 41, Nuaija (Al Hilal West), Doha, Qatar. P.O. Box: 16118.",
-      phone: "(+974) 44810674",
-      fax: "(+974) 44314133",
-      email: "info@floragroup.net",
+      address: t.contact.headOfficeAddress,
+      phone: t.contact.headOfficePhone,
+      fax: t.contact.headOfficeFax,
+      email: t.contact.headOfficeEmail,
     },
     {
       name: t.contact.flowersOfficeName,
-      address:
-        locale === "ar"
-          ? "المطار القديم، قرب لولو هايبرماركت، شارع أحمد بن حنبل، مبنى رقم ٤٧، الدوحة، قطر. ص.ب: ١٦١١٨."
-          : "Old Airport, Near Lulu Hypermarket, Ahmad Bin Hanbal St, Building No. 47, Doha, Qatar. P.O. Box: 16118.",
-      phone: "(+974) 44607703",
-      fax: "(+974) 44504480",
-      email: "flora@qatar.net.qa",
+      address: t.contact.flowersOfficeAddress,
+      phone: t.contact.flowersOfficePhone,
+      fax: t.contact.flowersOfficeFax,
+      email: t.contact.flowersOfficeEmail,
     },
   ]
 
@@ -54,19 +53,47 @@ export function ContactContent() {
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
       setForm((f) => ({ ...f, [key]: e.target.value }))
 
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setSubmitting(true)
+    setError(null)
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          company: form.company || undefined,
+          subject: form.subject,
+          message: form.message,
+          locale,
+        }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) {
+        setError((data as { error?: string }).error ?? t.contact.formErrorMessage)
+        return
+      }
+      setSent(true)
+    } catch {
+      setError(t.contact.formErrorMessage)
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
   return (
     <>
-      {/* Hero band */}
       <section className="relative isolate overflow-hidden text-white">
         <Image
-          src="/images/contact-doha.jpg"
+          src={images.contactHero}
           alt={t.contact.mapTitle}
           fill
           priority
           sizes="100vw"
           className="object-cover object-center"
         />
-        {/* Scrim behind text only — image stays clear on the right */}
         <div
           className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent"
           aria-hidden
@@ -99,7 +126,6 @@ export function ContactContent() {
 
       <section className="bg-background">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 lg:grid-cols-[1fr_1.1fr] lg:px-8 lg:py-24">
-          {/* Office details */}
           <motion.div
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -119,32 +145,40 @@ export function ContactContent() {
                     {o.name}
                   </h3>
                   <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
-                    <li className="flex gap-3">
-                      <MapPin className="mt-0.5 size-4 shrink-0 text-gold" />
-                      <span>{o.address}</span>
-                    </li>
-                    <li className="flex gap-3">
-                      <Phone className="mt-0.5 size-4 shrink-0 text-gold" />
-                      <span>
-                        {t.contact.phone}: <span dir="ltr">{o.phone}</span>
-                      </span>
-                    </li>
-                    <li className="flex gap-3">
-                      <Printer className="mt-0.5 size-4 shrink-0 text-gold" />
-                      <span>
-                        {t.contact.fax}: <span dir="ltr">{o.fax}</span>
-                      </span>
-                    </li>
-                    <li className="flex gap-3">
-                      <Mail className="mt-0.5 size-4 shrink-0 text-gold" />
-                      <a
-                        href={`mailto:${o.email}`}
-                        dir="ltr"
-                        className="transition-colors hover:text-primary"
-                      >
-                        {o.email}
-                      </a>
-                    </li>
+                    {o.address && (
+                      <li className="flex gap-3">
+                        <MapPin className="mt-0.5 size-4 shrink-0 text-gold" />
+                        <span>{o.address}</span>
+                      </li>
+                    )}
+                    {o.phone && (
+                      <li className="flex gap-3">
+                        <Phone className="mt-0.5 size-4 shrink-0 text-gold" />
+                        <span>
+                          {t.contact.phone}: <span dir="ltr">{o.phone}</span>
+                        </span>
+                      </li>
+                    )}
+                    {o.fax && (
+                      <li className="flex gap-3">
+                        <Printer className="mt-0.5 size-4 shrink-0 text-gold" />
+                        <span>
+                          {t.contact.fax}: <span dir="ltr">{o.fax}</span>
+                        </span>
+                      </li>
+                    )}
+                    {o.email && (
+                      <li className="flex gap-3">
+                        <Mail className="mt-0.5 size-4 shrink-0 text-gold" />
+                        <a
+                          href={`mailto:${o.email}`}
+                          dir="ltr"
+                          className="transition-colors hover:text-primary"
+                        >
+                          {o.email}
+                        </a>
+                      </li>
+                    )}
                   </ul>
                 </div>
               ))}
@@ -160,21 +194,27 @@ export function ContactContent() {
               </div>
             </div>
 
-            {/* Map */}
-            <div className="mt-6 overflow-hidden rounded-2xl border border-border">
-              <iframe
-                title={t.contact.mapTitle}
-                src="https://www.google.com/maps?q=Flora+Group+Co+Rawdat+Al+Khail+Doha+Qatar&output=embed"
-                width="100%"
-                height="300"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="block w-full"
-              />
-            </div>
+            {(() => {
+              // Prefer the friendly location field (link / address / "lat, lng");
+              // fall back to the legacy raw embed URL for configs saved before this field existed.
+              const mapSrc =
+                buildMapEmbedSrc(t.contact.mapLocation) ?? (t.contact.mapEmbedUrl || null)
+              return mapSrc ? (
+                <div className="mt-6 overflow-hidden rounded-2xl border border-border">
+                  <iframe
+                    title={t.contact.mapTitle}
+                    src={mapSrc}
+                    width="100%"
+                    height="300"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="block w-full"
+                  />
+                </div>
+              ) : null
+            })()}
           </motion.div>
 
-          {/* Contact form */}
           <motion.div
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -190,14 +230,18 @@ export function ContactContent() {
               </p>
 
               {sent ? (
-                <div className="mt-8 flex flex-col items-center gap-3 rounded-xl border border-gold/40 bg-gold/10 p-8 text-center">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="mt-8 flex flex-col items-center gap-3 rounded-xl border border-gold/40 bg-gold/10 p-8 text-center"
+                >
                   <CheckCircle2 className="size-10 text-gold" />
                   <p className="font-serif text-lg font-semibold text-foreground">
-                    {t.contact.successTitle}
+                    {t.contact.formSuccessTitle}
                     {form.name ? `, ${form.name}` : ""}!
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    {t.contact.successBody}
+                    {t.contact.formSuccessBody}
                   </p>
                   <Button
                     onClick={() => {
@@ -215,15 +259,15 @@ export function ContactContent() {
                   >
                     {t.contact.sendAnother}
                   </Button>
-                </div>
+                </motion.div>
               ) : (
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault()
-                    setSent(true)
-                  }}
-                  className="mt-7 flex flex-col gap-5"
-                >
+                <form onSubmit={handleSubmit} className="mt-7 flex flex-col gap-5">
+                  {error && (
+                    <div className="flex items-start gap-2 rounded-lg border border-destructive/30 bg-destructive/5 px-3 py-2.5 text-sm text-destructive">
+                      <AlertCircle className="mt-0.5 size-4 shrink-0" />
+                      {error}
+                    </div>
+                  )}
                   <div className="grid gap-5 sm:grid-cols-2">
                     <Field
                       label={t.contact.fullName}
@@ -279,9 +323,14 @@ export function ContactContent() {
                   <Button
                     type="submit"
                     size="lg"
+                    disabled={submitting}
                     className="h-11 bg-primary text-primary-foreground hover:bg-primary/90"
                   >
-                    <Send className="size-4 rtl:-scale-x-100" />
+                    {submitting ? (
+                      <Loader2 className="size-4 animate-spin" />
+                    ) : (
+                      <Send className="size-4 rtl:-scale-x-100" />
+                    )}
                     {t.contact.send}
                   </Button>
                 </form>

@@ -11,23 +11,24 @@ import { cn } from "@/lib/utils"
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
-const TAB_CONFIG = [
-  {
-    id: "technology",
-    icon: Cpu,
-    image: "/images/flora-technology-cover.jpg",
-    logo: "/images/flora-technology-logo.png",
-  },
-  {
-    id: "security",
-    icon: ShieldCheck,
-    image: "/images/flora-security-cover.jpg",
-    logo: "/images/flora-security-logo.png",
-  },
-] as const
-
 export function Spotlight() {
   const { t } = useI18n()
+
+  const TAB_CONFIG = [
+    {
+      id: "technology" as const,
+      icon: Cpu,
+      image: (t.spotlight as { technologyImage?: string }).technologyImage ?? "/images/flora-technology-cover.jpg",
+      logo: (t.spotlight as { technologyLogo?: string }).technologyLogo ?? "/images/flora-technology-logo.png",
+    },
+    {
+      id: "security" as const,
+      icon: ShieldCheck,
+      image: (t.spotlight as { securityImage?: string }).securityImage ?? "/images/flora-security-cover.jpg",
+      logo: (t.spotlight as { securityLogo?: string }).securityLogo ?? "/images/flora-security-logo.png",
+    },
+  ]
+
   const tabs = TAB_CONFIG.map((c) => ({ ...c, ...t.spotlight[c.id] }))
   const [active, setActive] = useState<string>(TAB_CONFIG[0].id)
   const current = tabs.find((tab) => tab.id === active) ?? tabs[0]
