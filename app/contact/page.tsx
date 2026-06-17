@@ -8,11 +8,15 @@ import { getSubsidiariesData } from "@/lib/subsidiaries-config"
 export async function generateMetadata(): Promise<Metadata> {
   const { content } = await getUiConfig()
   const pages = content?.en?.pages
+  const title = pages?.contactMetaTitle ?? "Contact Us — Flora Group W.L.L."
+  const description =
+    pages?.contactMetaDescription ??
+    "Get in touch with Flora Group W.L.L. in Doha, Qatar. Reach our head office, Flora Flowers, Sibonne, and subsidiary teams."
   return {
-    title: pages?.contactMetaTitle ?? "Contact Us — Flora Group W.L.L.",
-    description:
-      pages?.contactMetaDescription ??
-      "Get in touch with Flora Group W.L.L. in Doha, Qatar. Reach our head office, Flora Flowers, Sibonne, and subsidiary teams.",
+    title,
+    description,
+    alternates: { canonical: "/contact" },
+    openGraph: { title, description, url: "/contact" },
   }
 }
 

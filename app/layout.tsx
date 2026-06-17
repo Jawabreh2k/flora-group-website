@@ -9,6 +9,7 @@ import {
 } from 'next/font/google'
 import { I18nProvider } from '@/components/i18n-provider'
 import { getUiConfig, themeToCssVars } from '@/lib/ui-config'
+import { env } from '@/lib/env'
 import './globals.css'
 
 const inter = Inter({ variable: '--font-inter', subsets: ['latin'] })
@@ -37,8 +38,11 @@ const arabicSerif = Noto_Naskh_Arabic({
 export async function generateMetadata(): Promise<Metadata> {
   const { branding } = await getUiConfig()
   return {
+    // Resolves relative URLs (incl. the generated opengraph-image) to absolute ones.
+    metadataBase: new URL(env.siteUrl),
     title: branding.siteTitle,
     description: branding.metaDescription,
+    applicationName: 'Flora Group',
     generator: 'v0.app',
     icons: {
       icon: [
@@ -46,6 +50,19 @@ export async function generateMetadata(): Promise<Metadata> {
         { url: '/icon.svg', type: 'image/svg+xml' },
       ],
       apple: branding.logoUrl,
+    },
+    openGraph: {
+      type: 'website',
+      siteName: 'Flora Group W.L.L.',
+      title: branding.siteTitle,
+      description: branding.metaDescription,
+      url: '/',
+      locale: 'en_US',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: branding.siteTitle,
+      description: branding.metaDescription,
     },
   }
 }

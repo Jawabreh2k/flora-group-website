@@ -24,18 +24,26 @@ export async function generateMetadata({
   const managed = managedList.find((s) => s.slug === slug)
   const bundled = getSubsidiary(slug)
 
+  const canonical = `/subsidiaries/${slug}`
+
   if (managed) {
+    const title = `${managed.name.en} — Flora Group W.L.L.`
     return {
-      title: `${managed.name.en} — Flora Group W.L.L.`,
+      title,
       description: managed.short.en,
+      alternates: { canonical },
+      openGraph: { title, description: managed.short.en, url: canonical },
     }
   }
 
-  if (!bundled) return { title: "Subsidiary — Flora Group W.L.L." }
+  if (!bundled) return { title: "Subsidiary — Flora Group W.L.L.", alternates: { canonical } }
 
+  const title = `${bundled.name.en} — Flora Group W.L.L.`
   return {
-    title: `${bundled.name.en} — Flora Group W.L.L.`,
+    title,
     description: bundled.short.en,
+    alternates: { canonical },
+    openGraph: { title, description: bundled.short.en, url: canonical },
   }
 }
 
