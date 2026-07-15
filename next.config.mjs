@@ -1,9 +1,13 @@
-// img-src stays permissive (https: + data:) because branding/hero/subsidiary
-// images are admin-configurable URLs from the CMS — locking img-src to 'self'
-// would break any image an admin points at an external host.
+// script-src needs 'unsafe-inline': Next's App Router injects inline RSC-
+// streaming scripts (self.__next_f.push(...)) that hydration depends on.
+// Tried the documented per-request-nonce middleware pattern first — Turbopack
+// (the compiler this app builds with) doesn't apply the nonce to those
+// injected scripts, so with a bare 'self' they're silently blocked and the
+// page never hydrates. Revisit if/when Turbopack supports nonce injection;
+// until then this is a real, deliberate tradeoff, not an oversight.
 const CSP = [
   "default-src 'self'",
-  "script-src 'self'",
+  "script-src 'self' 'unsafe-inline'",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: https:",
   "font-src 'self' data:",
