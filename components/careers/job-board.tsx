@@ -38,7 +38,7 @@ function toggleValue<T extends string>(list: T[], value: T): T[] {
 }
 
 export function JobBoard() {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const [filters, setFilters] = useState<FilterState>({
     search: '',
     departments: [],
@@ -261,7 +261,7 @@ export function JobBoard() {
                                   href={`/careers/${job.id}`}
                                   className="transition-colors hover:text-primary"
                                 >
-                                  {job.title}
+                                  {locale === 'ar' && job.titleAr ? job.titleAr : job.title}
                                 </Link>
                               </h3>
                               <dl className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted-foreground">

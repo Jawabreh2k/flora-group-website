@@ -19,6 +19,8 @@ export interface PaginatedResponse<T> {
 export interface JobListItem {
   id: string
   title: string
+  /** Arabic translation of title, when an editor has provided one. */
+  titleAr: string | null
   department: string
   locationType: LocationType
   locationText: string
@@ -31,8 +33,11 @@ export interface JobListItem {
 
 export interface JobDetail extends JobListItem {
   description: string
+  descriptionAr: string | null
   requirements: string[]
+  requirementsAr: string[]
   responsibilities: string[]
+  responsibilitiesAr: string[]
   status: string
   updatedAt: string
   company: CompanySummary & {

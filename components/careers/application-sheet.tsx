@@ -77,7 +77,7 @@ export function ApplicationSheet({
   job: JobListItem | null
   onClose: () => void
 }) {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -243,7 +243,7 @@ export function ApplicationSheet({
                   {t.careers.application.eyebrow}
                 </p>
                 <h2 id="application-sheet-title" className="mt-2 font-serif text-2xl font-semibold">
-                  {job.title}
+                  {locale === 'ar' && job.titleAr ? job.titleAr : job.title}
                 </h2>
                 <p className="mt-1 text-sm text-muted-foreground">{job.company.name}</p>
               </div>

@@ -13,6 +13,10 @@ function validateJobListItem(item: unknown): item is JobListItem {
   return (
     typeof job.id === 'string' &&
     typeof job.title === 'string' &&
+    // titleAr is intentionally lenient (missing/undefined counts as untranslated)
+    // so older seed files without the field still load instead of getting
+    // rejected wholesale — loadJobsSeed normalizes it to null below.
+    (job.titleAr === undefined || job.titleAr === null || typeof job.titleAr === 'string') &&
     typeof job.department === 'string' &&
     ['REMOTE', 'HYBRID', 'ONSITE'].includes(job.locationType as string) &&
     typeof job.locationText === 'string' &&
@@ -53,7 +57,13 @@ export function loadJobsSeed(): PaginatedResponse<JobListItem> {
       throw new Error('Seed data validation failed: invalid schema')
     }
 
-    seedData = parsed
+    // Normalize titleAr to null (never undefined) so every consumer can rely on
+    // the JobListItem/JobDetail contract regardless of whether the seed JSON
+    // predates bilingual support.
+    seedData = {
+      ...parsed,
+      items: parsed.items.map((item) => ({ ...item, titleAr: item.titleAr ?? null })),
+    }
     return seedData
   } catch (err) {
     lastError = err instanceof Error ? err : new Error(String(err))
@@ -111,11 +121,14 @@ export function getJobDetailFromSeed(id: string): JobDetail | null {
     ...item,
     description:
       'For full details about this position, please contact us or check back when the system is fully operational.',
+    descriptionAr: null,
     requirements: ['Experience in related field', 'Strong communication skills'],
+    requirementsAr: [],
     responsibilities: [
       'Contribute to Flora Group\'s mission across one of our six strategic verticals',
       'Work collaboratively with team members',
     ],
+    responsibilitiesAr: [],
     status: 'OPEN',
     updatedAt: item.createdAt,
     company: {
