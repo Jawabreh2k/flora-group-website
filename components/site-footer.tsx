@@ -2,19 +2,52 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { MapPin, Phone, Mail, ArrowRight, ExternalLink } from "lucide-react"
+import { MapPin, Phone, Mail, ArrowRight, ExternalLink, Loader2 } from "lucide-react"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { BrandMark } from "@/components/brand-mark"
 import { Container } from "@/components/ui/container"
+import { HoneypotField } from "@/components/honeypot-field"
 import { SocialLinks } from "@/components/social-links"
 import { useI18n } from "@/components/i18n-provider"
+import { HONEYPOT_FIELD } from "@/lib/honeypot"
 import type { ManagedSubsidiary } from "@/lib/ui-config/types"
 import { cn } from "@/lib/utils"
 
 export function SiteFooter({ subsidiaries = [] }: { subsidiaries?: ManagedSubsidiary[] }) {
   const { t, locale, social } = useI18n()
   const [email, setEmail] = useState("")
-  const [sent, setSent] = useState(false)
+  const [honeypot, setHoneypot] = useState("")
+  const [status, setStatus] = useState<"idle" | "submitting" | "sent" | "error">("idle")
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
+  async function handleSubscribe(e: React.FormEvent) {
+    e.preventDefault()
+    if (!email || status === "submitting") return
+
+    setStatus("submitting")
+    setErrorMessage(null)
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, locale, [HONEYPOT_FIELD]: honeypot }),
+      })
+
+      if (!res.ok) {
+        setStatus("error")
+        setErrorMessage(
+          res.status === 429 ? t.footer.subscribeRateLimited : t.footer.subscribeError,
+        )
+        return
+      }
+
+      setStatus("sent")
+      setEmail("")
+    } catch {
+      setStatus("error")
+      setErrorMessage(t.footer.subscribeError)
+    }
+  }
 
   const telHref = t.footer.phone ? `tel:${t.footer.phone.replace(/\s/g, "")}` : undefined
   const profileSubs = subsidiaries.filter((s) => s.hasProfile !== false)
@@ -129,21 +162,16 @@ export function SiteFooter({ subsidiaries = [] }: { subsidiaries?: ManagedSubsid
           <p className="mt-5 text-sm leading-relaxed text-primary-foreground/65">
             {t.footer.newsletter}
           </p>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault()
-              if (email) {
-                setSent(true)
-                setEmail("")
-              }
-            }}
-            className="mt-5 flex gap-2"
-          >
+          <form onSubmit={handleSubscribe} className="mt-5 flex gap-2">
+            <HoneypotField value={honeypot} onChange={setHoneypot} />
             <input
               type="email"
               required
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value)
+                if (status === "error") setStatus("idle")
+              }}
               placeholder={t.footer.emailPlaceholder}
               aria-label={t.contact.email}
               className="h-11 w-full rounded-lg border border-primary-foreground/20 bg-primary-foreground/5 px-3.5 text-sm text-primary-foreground placeholder:text-primary-foreground/40 focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold"
@@ -152,13 +180,21 @@ export function SiteFooter({ subsidiaries = [] }: { subsidiaries?: ManagedSubsid
               type="submit"
               aria-label={t.footer.globalInquiries}
               variant="gold"
+              disabled={status === "submitting"}
               className="h-11 shrink-0"
             >
-              <ArrowRight className="size-4 transition-transform duration-300 group-hover/button:translate-x-0.5 rtl:-scale-x-100" />
+              {status === "submitting" ? (
+                <Loader2 className="size-4 animate-spin" />
+              ) : (
+                <ArrowRight className="size-4 transition-transform duration-300 group-hover/button:translate-x-0.5 rtl:-scale-x-100" />
+              )}
             </Button>
           </form>
-          {sent && (
-            <p className="mt-3 text-sm text-gold">{t.footer.subscribed}</p>
+          {status === "sent" && (
+            <p className="mt-3 text-sm text-gold" role="status">{t.footer.subscribed}</p>
+          )}
+          {status === "error" && errorMessage && (
+            <p className="mt-3 text-sm text-red-300" role="alert">{errorMessage}</p>
           )}
         </div>
       </Container>
