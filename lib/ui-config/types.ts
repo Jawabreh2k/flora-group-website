@@ -83,6 +83,8 @@ export type ManagedSubsidiary = {
   website: string
   hasProfile: boolean
   contact: SubsidiaryContact
+  /** Hides the subsidiary from the public site without deleting it. Defaults to true. */
+  enabled: boolean
 }
 
 export type SocialPlatform = 'linkedin' | 'instagram' | 'facebook' | 'x' | 'youtube'

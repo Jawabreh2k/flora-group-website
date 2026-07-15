@@ -6,6 +6,7 @@
  */
 import 'server-only'
 
+import { cache } from 'react'
 import type { ManagedSubsidiary } from '@/lib/ui-config/types'
 import { SUBSIDIARIES, type Subsidiary } from './subsidiaries'
 import { env } from '@/lib/env'
@@ -41,29 +42,42 @@ function convertToManaged(subsidiary: Subsidiary): ManagedSubsidiary {
     website: subsidiary.website,
     hasProfile: subsidiary.hasProfile,
     contact: subsidiary.contact,
+    // The bundled fallback list isn't admin-managed, so it's always visible.
+    enabled: true,
   }
 }
 
 /**
- * Gets subsidiaries from CMS config or falls back to bundled defaults.
- * Returns serializable records safe to pass into Client Components.
+ * Every CMS-managed subsidiary, including ones an admin has disabled. Wrapped
+ * in cache() so multiple calls within one request render (e.g. a page's own
+ * lookup plus generateMetadata) share a single fetch.
+ */
+const getAllManagedSubsidiaries = cache(async (): Promise<ManagedSubsidiary[]> => {
+  const config = await fetchDynamicConfig()
+
+  if (config?.subsidiaries?.enabled && config.subsidiaries.items.length > 0) {
+    return config.subsidiaries.items
+  }
+
+  return SUBSIDIARIES.map(convertToManaged)
+})
+
+/**
+ * Subsidiaries for public listings (homepage grid, footer, sitemap) — excludes
+ * any an admin has disabled. This is what nearly every caller wants.
  */
 export async function getSubsidiariesData(): Promise<ManagedSubsidiary[]> {
-  const config = await fetchDynamicConfig()
-
-  if (config?.subsidiaries?.enabled && config.subsidiaries.items.length > 0) {
-    return config.subsidiaries.items
-  }
-
-  return SUBSIDIARIES.map(convertToManaged)
+  const all = await getAllManagedSubsidiaries()
+  return all.filter((item) => item.enabled !== false)
 }
 
+/**
+ * Every CMS-managed subsidiary, disabled ones included. Only use this where
+ * the caller needs to distinguish "explicitly disabled" from "not managed by
+ * the CMS at all" — e.g. the subsidiary detail page deciding whether to 404 a
+ * disabled slug outright vs. falling back to bundled data for an unmanaged
+ * one. Everywhere else, prefer getSubsidiariesData().
+ */
 export async function getManagedSubsidiaries(): Promise<ManagedSubsidiary[]> {
-  const config = await fetchDynamicConfig()
-
-  if (config?.subsidiaries?.enabled && config.subsidiaries.items.length > 0) {
-    return config.subsidiaries.items
-  }
-
-  return SUBSIDIARIES.map(convertToManaged)
+  return getAllManagedSubsidiaries()
 }

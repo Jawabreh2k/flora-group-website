@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { env } from '@/lib/env'
-import { getManagedSubsidiaries } from '@/lib/subsidiaries-config'
+import { getSubsidiariesData } from '@/lib/subsidiaries-config'
 import { getAllJobsForSitemap } from '@/lib/jobs/server'
 
 // Re-generated on the same cadence as the CMS config so new subsidiaries and jobs appear.
@@ -23,7 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   let subsidiaryRoutes: MetadataRoute.Sitemap = []
   try {
-    const subsidiaries = await getManagedSubsidiaries()
+    const subsidiaries = await getSubsidiariesData()
     subsidiaryRoutes = subsidiaries.map((s) => ({
       url: `${base}/subsidiaries/${s.slug}`,
       lastModified: now,
