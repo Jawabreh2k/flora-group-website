@@ -8,9 +8,15 @@ __v0_jsx-dev-runtime.ts
 .claude/
 
 # Environment variables
+.env
 .env*.local
 
 # Common ignores
 node_modules
 .next/
 .DS_Store
+
+# This project uses npm (see packageManager in package.json) — other lockfiles
+# indicate an accidental install with the wrong tool and should not be committed.
+pnpm-lock.yaml
+yarn.lock
