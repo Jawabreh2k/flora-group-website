@@ -1,14 +1,15 @@
 import type { MetadataRoute } from 'next'
 import { env } from '@/lib/env'
 import { getManagedSubsidiaries } from '@/lib/subsidiaries-config'
+import { getAllJobsForSitemap } from '@/lib/jobs/server'
 
-// Re-generated on the same cadence as the CMS config so new subsidiaries appear.
+// Re-generated on the same cadence as the CMS config so new subsidiaries and jobs appear.
 export const revalidate = 3600
 
 /**
- * XML sitemap for crawlers. Covers the static marketing pages plus every subsidiary
- * detail page (the only dynamically-routed public content). Individual jobs are not
- * listed because they have no standalone URLs — they live in the /careers board.
+ * XML sitemap for crawlers. Covers the static marketing pages, every subsidiary
+ * detail page, and every open job posting (each has its own indexable URL with
+ * JobPosting structured data — see app/careers/[id]/page.tsx).
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = env.siteUrl
@@ -33,5 +34,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Degrade to the static sitemap if the CMS is unreachable.
   }
 
-  return [...staticRoutes, ...subsidiaryRoutes]
+  const jobs = await getAllJobsForSitemap()
+  const jobRoutes: MetadataRoute.Sitemap = jobs.map((job) => ({
+    url: `${base}/careers/${job.id}`,
+    lastModified: new Date(job.createdAt),
+    changeFrequency: 'weekly',
+    priority: 0.6,
+  }))
+
+  return [...staticRoutes, ...subsidiaryRoutes, ...jobRoutes]
 }

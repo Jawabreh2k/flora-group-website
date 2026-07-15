@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import Link from 'next/link'
 import {
   Briefcase,
   Building2,
@@ -100,7 +101,7 @@ export function JobBoard() {
     } finally {
       setIsLoading(false)
     }
-  }, [debouncedSearch, filters.departments, filters.jobTypes, filters.locationTypes, page])
+  }, [debouncedSearch, filters.departments, filters.jobTypes, filters.locationTypes, page, t.careers.ui.loadError])
 
   useEffect(() => {
     loadJobs()
@@ -256,7 +257,12 @@ export function JobBoard() {
                                 </span>
                               </div>
                               <h3 className="mt-3 font-serif text-xl font-semibold text-foreground">
-                                {job.title}
+                                <Link
+                                  href={`/careers/${job.id}`}
+                                  className="transition-colors hover:text-primary"
+                                >
+                                  {job.title}
+                                </Link>
                               </h3>
                               <dl className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted-foreground">
                                 <div className="flex items-center gap-1.5">

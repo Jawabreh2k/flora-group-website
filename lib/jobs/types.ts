@@ -57,6 +57,8 @@ export interface ApplicationInput {
   candidatePhone?: string
   coverLetter?: string
   resume: File
+  /** Honeypot value — always empty for real users. See lib/honeypot.ts. */
+  honeypot?: string
 }
 
 export const LOCATION_TYPES: LocationType[] = ['REMOTE', 'HYBRID', 'ONSITE']
@@ -68,4 +70,8 @@ export function formatEnumLabel(value: string): string {
     .split('_')
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join(' ')
+}
+
+export function isJobClosed(closingDate: string | null): boolean {
+  return closingDate ? new Date(closingDate).getTime() < Date.now() : false
 }
