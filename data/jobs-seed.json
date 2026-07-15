@@ -1,0 +1,110 @@
+{
+  "items": [
+    {
+      "id": "senior-software-engineer",
+      "title": "Senior Software Engineer",
+      "department": "Technology",
+      "locationType": "ONSITE",
+      "locationText": "Doha, Qatar",
+      "jobType": "FULL_TIME",
+      "salaryRange": null,
+      "closingDate": null,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "company": {
+        "id": "flora-technology",
+        "name": "Flora Technology",
+        "logoUrl": null,
+        "website": "https://www.floragroup.qa"
+      }
+    },
+    {
+      "id": "security-systems-engineer",
+      "title": "Security Systems Engineer",
+      "department": "Security",
+      "locationType": "ONSITE",
+      "locationText": "Doha, Qatar",
+      "jobType": "FULL_TIME",
+      "salaryRange": null,
+      "closingDate": null,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "company": {
+        "id": "flora-security",
+        "name": "Flora Security Systems",
+        "logoUrl": null,
+        "website": "https://www.floragroup.qa"
+      }
+    },
+    {
+      "id": "sales-executive-trading",
+      "title": "Sales Executive — FMCG",
+      "department": "Trading",
+      "locationType": "ONSITE",
+      "locationText": "Doha, Qatar",
+      "jobType": "FULL_TIME",
+      "salaryRange": null,
+      "closingDate": null,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "company": {
+        "id": "flora-trading",
+        "name": "Flora Trading Center",
+        "logoUrl": null,
+        "website": "https://www.floragroup.qa"
+      }
+    },
+    {
+      "id": "floral-operations-coordinator",
+      "title": "Floral Operations Coordinator",
+      "department": "Floral",
+      "locationType": "ONSITE",
+      "locationText": "Doha, Qatar",
+      "jobType": "FULL_TIME",
+      "salaryRange": null,
+      "closingDate": null,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "company": {
+        "id": "sibonne",
+        "name": "Sibonne",
+        "logoUrl": null,
+        "website": "https://www.floragroup.qa"
+      }
+    },
+    {
+      "id": "project-engineer-construction",
+      "title": "Project Engineer",
+      "department": "Construction",
+      "locationType": "ONSITE",
+      "locationText": "Doha, Qatar",
+      "jobType": "FULL_TIME",
+      "salaryRange": null,
+      "closingDate": null,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "company": {
+        "id": "royal-stone",
+        "name": "Royal Stone Trading & Contracting",
+        "logoUrl": null,
+        "website": "https://www.floragroup.qa"
+      }
+    },
+    {
+      "id": "hr-talent-specialist",
+      "title": "HR & Talent Specialist",
+      "department": "Corporate",
+      "locationType": "ONSITE",
+      "locationText": "Doha, Qatar",
+      "jobType": "FULL_TIME",
+      "salaryRange": null,
+      "closingDate": null,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "company": {
+        "id": "flora-group",
+        "name": "Flora Group W.L.L.",
+        "logoUrl": null,
+        "website": "https://www.floragroup.qa"
+      }
+    }
+  ],
+  "totalCount": 6,
+  "page": 1,
+  "pageSize": 12,
+  "hasNextPage": false
+}
