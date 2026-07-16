@@ -42,6 +42,10 @@ export type Subsidiary = {
   website: string
   hasProfile: boolean
   contact: SubsidiaryContact
+  /** Named clients/partners shown as a "Trusted By" strip. Empty/absent hides the section. */
+  clients?: Localized<string[]>
+  /** Override for the "Visit Website" button label (e.g. "Shop the Online Store"). */
+  websiteLabel?: Localized<string>
 }
 
 /** A subsidiary resolved into a single locale — plain strings everywhere. */
@@ -61,6 +65,8 @@ export type LocalizedSubsidiary = {
   website: string
   hasProfile: boolean
   contact: { address: string; phone?: string; fax?: string; email?: string }
+  clients?: string[]
+  websiteLabel?: string
 }
 
 export const SUBSIDIARIES: Subsidiary[] = [
@@ -145,7 +151,7 @@ export const SUBSIDIARIES: Subsidiary[] = [
         { value: "الأولى", label: "علامة محلية محبوبة" },
       ],
     },
-    website: "https://www.floraonline.net",
+    website: "https://floratradingcenter.net",
     hasProfile: false,
     contact: {
       address: {
@@ -176,11 +182,13 @@ export const SUBSIDIARIES: Subsidiary[] = [
         "Flora Technology Co. was established as a branch of the Flora Group with a clear focus: to deliver state-of-the-art, end-to-end technology solutions and services to Qatari governmental and private entities.",
         "Over the years we have developed the expertise to provide highly customised advanced technology solutions — a full lifecycle of services from initial requirements gathering and systems analysis through implementation, installation, programming and custom software development, all the way to end-user training, maintenance and support.",
         "As a Flora Group company we remain strictly committed to the Group's values — placing customer satisfaction at the centre of everything and striving for the highest quality in every product and service. Our experienced professionals drive innovation with the discipline of the Group's high professional and ethical standards.",
+        "Recent engagements include delivering the technology infrastructure behind the opening of Leabaib Health Center and engineering the systems for the Government Service Complex in Messamir — real public-sector deployments supporting Qatar's expanding institutional footprint.",
       ],
       ar: [
         "تأسّست شركة فلورا للتكنولوجيا كفرعٍ من مجموعة فلورا بهدفٍ واضح: تقديم حلولٍ وخدماتٍ تقنية متكاملة وحديثة للجهات الحكومية والخاصة في قطر.",
         "على مرّ السنين طوّرنا الخبرة لتقديم حلولٍ تقنية متقدّمة ومُخصّصة — دورة خدماتٍ كاملة من جمع المتطلبات وتحليل الأنظمة، مروراً بالتنفيذ والتركيب والبرمجة وتطوير البرمجيات المُخصّصة، وصولاً إلى تدريب المستخدمين والصيانة والدعم.",
         "بصفتنا إحدى شركات مجموعة فلورا، نلتزم التزاماً صارماً بقيم المجموعة — واضعين رضا العميل في صميم كلّ ما نقوم به، وساعين لأعلى جودةٍ في كلّ منتجٍ وخدمة. ويقود خبراؤنا الابتكار بانضباط معايير المجموعة المهنية والأخلاقية العالية.",
+        "من أبرز المشاريع الحديثة تجهيز البنية التقنية لافتتاح مركز اللبيب الصحي، وهندسة أنظمة مجمّع الخدمات الحكومي في مسيمير — نشرٌ فعليٌّ يدعم التوسّع المتنامي للقطاع المؤسسي في قطر.",
       ],
     },
     highlights: {
@@ -233,7 +241,7 @@ export const SUBSIDIARIES: Subsidiary[] = [
         { value: "٢٤/٧", label: "الدعم والصيانة" },
       ],
     },
-    website: "https://www.floraonline.net",
+    website: "https://www.floratechnology.net",
     hasProfile: true,
     contact: {
       address: {
@@ -323,7 +331,7 @@ export const SUBSIDIARIES: Subsidiary[] = [
         { value: "°٣٦٠", label: "تغطية الحماية" },
       ],
     },
-    website: "https://www.floraonline.net",
+    website: "https://www.florasecurity.net",
     hasProfile: true,
     contact: {
       address: {
@@ -411,7 +419,7 @@ export const SUBSIDIARIES: Subsidiary[] = [
         { value: "طازج", label: "إمداد يومي" },
       ],
     },
-    website: "https://www.floraonline.net",
+    website: "https://www.sibonneqatar.net",
     hasProfile: false,
     contact: {
       address: {
@@ -421,6 +429,24 @@ export const SUBSIDIARIES: Subsidiary[] = [
       phone: "(+974) 44607703",
       fax: "(+974) 44504480",
       email: "flora@qatar.net.qa",
+    },
+    clients: {
+      en: [
+        "The St. Regis Doha",
+        "The Ritz-Carlton, Doha",
+        "Commercial Bank",
+        "Bateel",
+        "Holiday Villa",
+        "The Diplomatic Club",
+      ],
+      ar: [
+        "The St. Regis Doha",
+        "The Ritz-Carlton, Doha",
+        "Commercial Bank",
+        "Bateel",
+        "Holiday Villa",
+        "The Diplomatic Club",
+      ],
     },
   },
   {
@@ -499,7 +525,7 @@ export const SUBSIDIARIES: Subsidiary[] = [
         { value: "★٥", label: "ولاء العملاء" },
       ],
     },
-    website: "https://www.floraonline.net",
+    website: "https://www.flora.qa",
     hasProfile: false,
     contact: {
       address: {
@@ -510,6 +536,7 @@ export const SUBSIDIARIES: Subsidiary[] = [
       fax: "(+974) 44504480",
       email: "flora@qatar.net.qa",
     },
+    websiteLabel: { en: "Shop the Online Store", ar: "تسوّق من المتجر الإلكتروني" },
   },
   {
     slug: "royal-stone",
@@ -532,12 +559,12 @@ export const SUBSIDIARIES: Subsidiary[] = [
     logo: "/images/royal-stone-logo.png",
     paragraphs: {
       en: [
-        "Royal Stone Trading and Contracting is a well-established company formed in early 2014, with strong domain expertise and professional experience. It is focused on excelling as a leading general contracting and construction-materials supply company in the State of Qatar.",
+        "Royal Stone Trading and Contracting is a well-established company formed in early 2014, with strong domain expertise and professional experience. Today it operates across four specialised divisions — General Contracting, Trading, MEP and Steel & Aluminium — focused on excelling as a leading construction partner in the State of Qatar.",
         "What sets Royal Stone apart is its partnership with Flora Group — one of Qatar's leading and most reputed organisations, with a strong presence in the country built over decades.",
         "As a subsidiary of Flora Group, Royal Stone integrates the Group's decades of experience, market relationships, facilities, standards, professionalism and reputation with a construction team carrying more than a decade of domain expertise — delivering projects on time, to quality, and to the highest levels of client satisfaction.",
       ],
       ar: [
-        "رويال ستون للتجارة والمقاولات شركةٌ راسخة تأسّست مطلع عام ٢٠١٤، تتمتّع بخبرةٍ متخصّصة عميقة. وتركّز على التميّز كشركةٍ رائدة في المقاولات العامة وتوريد مواد البناء في دولة قطر.",
+        "رويال ستون للتجارة والمقاولات شركةٌ راسخة تأسّست مطلع عام ٢٠١٤، تتمتّع بخبرةٍ متخصّصة عميقة. وتعمل اليوم عبر أربعة أقسامٍ متخصّصة — المقاولات العامة، والتجارة، والأنظمة الكهروميكانيكية، والحديد والألمنيوم — سعياً للتميّز كشريكٍ رائدٍ في قطاع الإنشاءات بدولة قطر.",
         "ما يميّز رويال ستون هو شراكتها مع مجموعة فلورا — إحدى أعرق المؤسسات القطرية وأكثرها سمعةً، بحضورٍ قويّ في البلاد بُني على مدى عقود.",
         "بصفتها شركةً تابعة لمجموعة فلورا، تدمج رويال ستون عقوداً من خبرة المجموعة وعلاقاتها السوقية ومنشآتها ومعاييرها واحترافيتها وسمعتها مع فريق بناءٍ يحمل أكثر من عقدٍ من الخبرة المتخصّصة — لتسليم المشاريع في موعدها وبالجودة المطلوبة وأعلى مستويات رضا العملاء.",
       ],
@@ -546,37 +573,37 @@ export const SUBSIDIARIES: Subsidiary[] = [
       en: [
         {
           title: "General Contracting",
-          body: "End-to-end civil construction and general contracting across the State of Qatar.",
+          body: "Turnkey civil construction — buildings, roads and infrastructure finishing works for commercial, industrial and institutional clients.",
         },
         {
-          title: "Material Supply",
-          body: "Reliable sourcing and supply of quality construction materials at scale.",
+          title: "Trading Division",
+          body: "Supply of building materials, finishing items and infrastructure products from trusted regional and international manufacturers.",
         },
         {
-          title: "Group Backing",
-          body: "The credibility, standards and market relationships of the wider Flora Group.",
+          title: "MEP Systems",
+          body: "Mechanical, electrical and plumbing works delivered end-to-end alongside the main contracting scope.",
         },
         {
-          title: "On-Time Delivery",
-          body: "Projects executed to schedule, to quality and to client satisfaction.",
+          title: "Steel & Aluminium",
+          body: "Fabrication and installation of structural steel and aluminium works for façades, structures and finishing.",
         },
       ],
       ar: [
         {
           title: "المقاولات العامة",
-          body: "إنشاءاتٌ مدنية ومقاولاتٌ عامة متكاملة في أنحاء دولة قطر.",
+          body: "مقاولات إنشاءات مدنية متكاملة — تسليم مفتاح — تشمل المباني والطرق والبنية التحتية وأعمال التشطيبات للقطاعات التجارية والصناعية والمؤسسية.",
         },
         {
-          title: "توريد المواد",
-          body: "توريدٌ موثوق لمواد البناء عالية الجودة على نطاقٍ واسع.",
+          title: "قسم التجارة",
+          body: "توريد مواد البناء ومستلزمات التشطيبات ومنتجات البنية التحتية من مصنّعين إقليميين ودوليين موثوقين.",
         },
         {
-          title: "دعم المجموعة",
-          body: "مصداقية ومعايير وعلاقات مجموعة فلورا الأوسع.",
+          title: "الأنظمة الكهروميكانيكية",
+          body: "أعمال ميكانيكية وكهربائية وصحية متكاملة تُنفَّذ إلى جانب نطاق المقاولات الرئيسي.",
         },
         {
-          title: "تسليمٌ في الموعد",
-          body: "مشاريع تُنفَّذ وفق الجدول وبالجودة المطلوبة ورضا العملاء.",
+          title: "الحديد والألمنيوم",
+          body: "تصنيع وتركيب أعمال الحديد الإنشائي والألمنيوم للواجهات والهياكل والتشطيبات.",
         },
       ],
     },
@@ -592,7 +619,7 @@ export const SUBSIDIARIES: Subsidiary[] = [
         { value: "في الموعد", label: "تسليم المشاريع" },
       ],
     },
-    website: "https://www.floragroup.net",
+    website: "https://www.royal-stone.net",
     hasProfile: true,
     contact: {
       address: {
@@ -632,6 +659,8 @@ export function localizeSubsidiary(
       fax: s.contact.fax,
       email: s.contact.email,
     },
+    clients: s.clients?.[locale],
+    websiteLabel: s.websiteLabel?.[locale],
   }
 }
 
@@ -677,5 +706,7 @@ export function convertManagedToSubsidiary(
     website: managed.website,
     hasProfile: managed.hasProfile,
     contact: managed.contact,
+    clients: managed.clients,
+    websiteLabel: managed.websiteLabel,
   }
 }

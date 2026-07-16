@@ -57,3 +57,30 @@ export function themeToCssVars(theme: Theme): CSSProperties {
   }
   return style as CSSProperties
 }
+
+/**
+ * Renders the dark-mode palette as a `.dark body { ... }` CSS rule (a string,
+ * not an inline style) so it can be server-rendered into a <style> tag.
+ *
+ * It has to be a real stylesheet rule rather than an inline style like the
+ * light theme: the light theme's inline `style` attribute lives on <html>,
+ * and inline styles beat any CSS selector targeting that same element — a
+ * `.dark` override on <html> could never win. Scoping to `body` (a
+ * descendant, with no competing inline style of its own) sidesteps that
+ * entirely via normal cascade/inheritance.
+ *
+ * Deliberately excludes `radius`/`fontHeading`/`fontSans` — shape and
+ * typography don't change between light and dark, so the dark palette only
+ * ever carries colour tokens.
+ */
+export function themeDarkToCssRule(themeDark: Theme): string {
+  const declarations = VAR_KEYS.filter((key) => key !== "radius")
+    .map((key) => {
+      const value = themeDark[key]
+      return typeof value === "string" && value.length > 0 ? `  ${toCssVar(key)}: ${value};` : null
+    })
+    .filter((line): line is string => line !== null)
+    .join("\n")
+
+  return `.dark body {\n${declarations}\n}`
+}

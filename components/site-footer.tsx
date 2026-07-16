@@ -53,7 +53,7 @@ export function SiteFooter({ subsidiaries = [] }: { subsidiaries?: ManagedSubsid
   const profileSubs = subsidiaries.filter((s) => s.hasProfile !== false)
 
   return (
-    <footer id="contact" className="relative bg-primary text-primary-foreground">
+    <footer id="contact" className="relative bg-maroon-deep text-white">
       <div className="h-px w-full bg-gradient-to-r from-transparent via-gold/60 to-transparent" />
 
       <div id="careers" className="border-b border-gold/15">
@@ -62,7 +62,7 @@ export function SiteFooter({ subsidiaries = [] }: { subsidiaries?: ManagedSubsid
             <h2 className="font-serif text-2xl font-semibold tracking-tight sm:text-3xl">
               {t.footer.careersTitle}
             </h2>
-            <p className="mt-2 max-w-xl text-sm leading-relaxed text-primary-foreground/65">
+            <p className="mt-2 max-w-xl text-sm leading-relaxed text-white/65">
               {t.footer.careersBody}
             </p>
           </div>
@@ -82,7 +82,7 @@ export function SiteFooter({ subsidiaries = [] }: { subsidiaries?: ManagedSubsid
       <Container className="grid gap-12 py-16 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
         <div>
           <BrandMark tone="light" />
-          <p className="mt-5 max-w-xs text-sm leading-relaxed text-primary-foreground/65">
+          <p className="mt-5 max-w-xs text-sm leading-relaxed text-white/65">
             {t.footer.about}
           </p>
           <SocialLinks social={social} className="mt-6" />
@@ -92,12 +92,12 @@ export function SiteFooter({ subsidiaries = [] }: { subsidiaries?: ManagedSubsid
           <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">
             {t.footer.subsidiaries}
           </h3>
-          <ul className="mt-5 space-y-2.5 text-sm text-primary-foreground/65">
+          <ul className="mt-5 space-y-2.5 text-sm text-white/65">
             {profileSubs.map((s) => (
               <li key={s.slug}>
                 <Link
                   href={`/subsidiaries/${s.slug}`}
-                  className="transition-colors hover:text-primary-foreground"
+                  className="transition-colors hover:text-white"
                 >
                   {s.name[locale]}
                 </Link>
@@ -110,7 +110,7 @@ export function SiteFooter({ subsidiaries = [] }: { subsidiaries?: ManagedSubsid
           <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">
             {t.footer.headOffice}
           </h3>
-          <ul className="mt-5 space-y-3 text-sm text-primary-foreground/65">
+          <ul className="mt-5 space-y-3 text-sm text-white/65">
             <li className="flex gap-3">
               <MapPin className="mt-0.5 size-4 shrink-0 text-gold" />
               <span>{t.footer.address}</span>
@@ -120,7 +120,7 @@ export function SiteFooter({ subsidiaries = [] }: { subsidiaries?: ManagedSubsid
                 <a
                   href={telHref}
                   dir="ltr"
-                  className="flex items-center gap-3 transition-colors hover:text-primary-foreground rtl:flex-row-reverse rtl:justify-end"
+                  className="flex items-center gap-3 transition-colors hover:text-white rtl:flex-row-reverse rtl:justify-end"
                 >
                   <Phone className="size-4 text-gold" />
                   {t.footer.phoneDisplay}
@@ -132,7 +132,7 @@ export function SiteFooter({ subsidiaries = [] }: { subsidiaries?: ManagedSubsid
                 <a
                   href={`mailto:${t.footer.email}`}
                   dir="ltr"
-                  className="flex items-center gap-3 transition-colors hover:text-primary-foreground rtl:flex-row-reverse rtl:justify-end"
+                  className="flex items-center gap-3 transition-colors hover:text-white rtl:flex-row-reverse rtl:justify-end"
                 >
                   <Mail className="size-4 text-gold" />
                   {t.footer.email}
@@ -145,7 +145,7 @@ export function SiteFooter({ subsidiaries = [] }: { subsidiaries?: ManagedSubsid
                   href={t.footer.mapsUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-3 transition-colors hover:text-primary-foreground"
+                  className="inline-flex items-center gap-3 transition-colors hover:text-white"
                 >
                   <ExternalLink className="size-4 text-gold" />
                   {t.footer.openInMaps}
@@ -159,7 +159,7 @@ export function SiteFooter({ subsidiaries = [] }: { subsidiaries?: ManagedSubsid
           <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">
             {t.footer.globalInquiries}
           </h3>
-          <p className="mt-5 text-sm leading-relaxed text-primary-foreground/65">
+          <p className="mt-5 text-sm leading-relaxed text-white/65">
             {t.footer.newsletter}
           </p>
           <form onSubmit={handleSubscribe} className="mt-5 flex gap-2">
@@ -174,7 +174,7 @@ export function SiteFooter({ subsidiaries = [] }: { subsidiaries?: ManagedSubsid
               }}
               placeholder={t.footer.emailPlaceholder}
               aria-label={t.contact.email}
-              className="h-11 w-full rounded-lg border border-primary-foreground/20 bg-primary-foreground/5 px-3.5 text-sm text-primary-foreground placeholder:text-primary-foreground/40 focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold"
+              className="h-11 w-full rounded-lg border border-white/20 bg-white/5 px-3.5 text-sm text-white placeholder:text-white/40 focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold"
             />
             <Button
               type="submit"
@@ -199,8 +199,8 @@ export function SiteFooter({ subsidiaries = [] }: { subsidiaries?: ManagedSubsid
         </div>
       </Container>
 
-      <div className="border-t border-primary-foreground/10">
-        <Container className="flex flex-col items-center justify-between gap-2 py-6 text-xs text-primary-foreground/50 sm:flex-row">
+      <div className="border-t border-white/10">
+        <Container className="flex flex-col items-center justify-between gap-2 py-6 text-xs text-white/50 sm:flex-row">
           <p>
             © {new Date().getFullYear()} {t.footer.companyName ?? "Flora Group W.L.L."}{" "}
             {t.footer.rightsText ?? t.footer.rights}

@@ -4,7 +4,7 @@ import { DEFAULT_UI_CONFIG } from "./defaults"
 import type { UiConfig, UiConfigPayload } from "./types"
 
 export * from "./types"
-export { themeToCssVars } from "./css-vars"
+export { themeToCssVars, themeDarkToCssRule } from "./css-vars"
 export { DEFAULT_UI_CONFIG } from "./defaults"
 
 /**
@@ -31,6 +31,7 @@ export const getUiConfig = cache(async (): Promise<UiConfigPayload> => {
     // Merge over defaults so a partial payload (e.g. new field missing) is safe.
     return {
       theme: { ...DEFAULT_UI_CONFIG.theme, ...data.payload?.theme },
+      themeDark: { ...DEFAULT_UI_CONFIG.themeDark, ...data.payload?.themeDark },
       branding: { ...DEFAULT_UI_CONFIG.branding, ...data.payload?.branding },
       sections: { ...DEFAULT_UI_CONFIG.sections, ...data.payload?.sections },
       images: { ...DEFAULT_UI_CONFIG.images, ...data.payload?.images },

@@ -84,7 +84,7 @@ export function SocialLinks({
             target="_blank"
             rel="noreferrer noopener"
             aria-label={LABELS[link.platform] ?? link.platform}
-            className="grid size-9 place-items-center rounded-lg border border-primary-foreground/15 bg-primary-foreground/5 text-primary-foreground/70 transition-all hover:border-gold/40 hover:bg-gold/15 hover:text-gold"
+            className="grid size-9 place-items-center rounded-lg border border-white/15 bg-white/5 text-white/70 transition-all hover:border-gold/40 hover:bg-gold/15 hover:text-gold"
           >
             <Icon className="size-4" />
           </a>

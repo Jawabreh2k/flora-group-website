@@ -42,6 +42,8 @@ function convertToManaged(subsidiary: Subsidiary): ManagedSubsidiary {
     website: subsidiary.website,
     hasProfile: subsidiary.hasProfile,
     contact: subsidiary.contact,
+    clients: subsidiary.clients,
+    websiteLabel: subsidiary.websiteLabel,
     // The bundled fallback list isn't admin-managed, so it's always visible.
     enabled: true,
   }

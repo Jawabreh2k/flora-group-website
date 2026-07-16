@@ -124,8 +124,13 @@ const en = {
     relatedTitle: "More from Flora Group",
     viewAll: "View all subsidiaries",
     visitWebsite: "Visit Website",
+    shopOnline: "Shop the Online Store",
     companyProfile: "Company Profile",
     contactUs: "Contact Us",
+    trustedByEyebrow: "Trusted By",
+    trustedByTitle: "Serving Doha's finest",
+    trustedBySubtitle:
+      "Supplying fresh floral artistry to leading hotels, banks and institutions across Qatar.",
   },
   footer: {
     careersTitle: "Build your career with Qatar's trusted conglomerate.",
@@ -487,8 +492,13 @@ const ar: Messages = {
     relatedTitle: "المزيد من مجموعة فلورا",
     viewAll: "عرض جميع الشركات",
     visitWebsite: "زيارة الموقع",
+    shopOnline: "تسوّق من المتجر الإلكتروني",
     companyProfile: "الملف التعريفي",
     contactUs: "تواصل معنا",
+    trustedByEyebrow: "موضع ثقة",
+    trustedByTitle: "نخدم أرقى مؤسسات الدوحة",
+    trustedBySubtitle:
+      "نزوّد أبرز الفنادق والبنوك والمؤسسات في قطر بأجمل التنسيقات الزهرية.",
   },
   footer: {
     careersTitle: "ابنِ مسيرتك المهنية مع المجموعة القطرية الموثوقة.",

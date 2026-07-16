@@ -29,7 +29,7 @@ export function JobDetailView({ job, isClosed }: { job: JobDetail; isClosed: boo
 
   return (
     <>
-      <section className="relative isolate overflow-hidden bg-primary text-white">
+      <section className="relative isolate overflow-hidden bg-maroon-deep text-white">
         <div className="bg-radial-fade absolute inset-x-0 top-0 -z-10 h-[420px] opacity-40" aria-hidden />
         <Container className="py-24 lg:py-32">
           <Link

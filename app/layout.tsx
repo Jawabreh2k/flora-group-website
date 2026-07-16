@@ -8,7 +8,8 @@ import {
   Noto_Naskh_Arabic,
 } from 'next/font/google'
 import { I18nProvider } from '@/components/i18n-provider'
-import { getUiConfig, themeToCssVars } from '@/lib/ui-config'
+import { ThemeProvider } from '@/components/theme-provider'
+import { getUiConfig, themeDarkToCssRule, themeToCssVars } from '@/lib/ui-config'
 import { env } from '@/lib/env'
 import './globals.css'
 
@@ -83,7 +84,7 @@ export default async function RootLayout({
   // Fetch the live theme and map it onto CSS variables rendered into the HTML.
   // Overriding the raw `--primary` / `--gold` / ... tokens re-themes every Tailwind
   // utility instantly, server-side, with no rebuild and no flash of the old theme.
-  const { theme, content, images, social } = await getUiConfig()
+  const { theme, themeDark, content, images, social } = await getUiConfig()
 
   return (
     <html
@@ -91,11 +92,26 @@ export default async function RootLayout({
       dir="ltr"
       className={`${inter.variable} ${playfair.variable} ${geistMono.variable} ${arabicSans.variable} ${arabicSerif.variable} bg-background`}
       style={themeToCssVars(theme)}
+      suppressHydrationWarning
     >
+      <head>
+        {/* CMS-managed dark palette, scoped to `.dark body` — see themeDarkToCssRule
+            for why this has to be a real stylesheet rule and not an inline style. */}
+        <style dangerouslySetInnerHTML={{ __html: themeDarkToCssRule(themeDark) }} />
+        {/* Sets the dark/light class before first paint so there's no flash of
+            the wrong theme — runs synchronously, ahead of hydration. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var s=localStorage.getItem('flora-theme');var d=s?s==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.classList.add('dark');}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body className="font-sans antialiased">
-        <I18nProvider content={content} images={images} social={social}>
-          {children}
-        </I18nProvider>
+        <ThemeProvider>
+          <I18nProvider content={content} images={images} social={social}>
+            {children}
+          </I18nProvider>
+        </ThemeProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

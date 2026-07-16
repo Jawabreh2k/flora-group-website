@@ -119,8 +119,8 @@ export function Hero() {
             />
 
             {/* Subtle maroon tint so the photo matches brand colours */}
-            <div className="absolute inset-0 bg-primary/30 mix-blend-multiply" />
-            <div className="absolute inset-0 bg-gradient-to-t from-primary/85 via-primary/15 to-transparent" />
+            <div className="absolute inset-0 bg-maroon-deep/30 mix-blend-multiply" />
+            <div className="absolute inset-0 bg-gradient-to-t from-maroon-deep/85 via-maroon-deep/15 to-transparent" />
             {/* Gold glow at the horizon for golden-hour warmth */}
             <div className="absolute inset-x-0 top-1/4 h-1/2 bg-[radial-gradient(60%_50%_at_50%_40%,rgba(197,168,128,0.18),transparent_70%)] mix-blend-screen" />
 

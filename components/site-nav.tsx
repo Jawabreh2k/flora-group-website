@@ -9,6 +9,7 @@ import { buttonVariants } from "@/components/ui/button"
 import { BrandMark } from "@/components/brand-mark"
 import { Container } from "@/components/ui/container"
 import { LanguageToggle } from "@/components/language-toggle"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { useI18n } from "@/components/i18n-provider"
 import { cn } from "@/lib/utils"
 
@@ -85,6 +86,7 @@ export function SiteNav({
 
         {/* Right cluster */}
         <div className="flex items-center gap-2">
+          <ThemeToggle className="hidden sm:inline-flex" />
           <LanguageToggle className="hidden sm:inline-flex" />
           <Link
             href="/contact"
@@ -130,6 +132,7 @@ export function SiteNav({
                 </Link>
               ))}
               <div className="mt-2 flex items-center gap-2">
+                <ThemeToggle />
                 <LanguageToggle className="flex-1 justify-center" />
                 <Link
                   href="/contact"

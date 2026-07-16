@@ -33,6 +33,37 @@ export const DEFAULT_UI_CONFIG: UiConfigPayload = {
     fontHeading: "Playfair Display",
     fontSans: "Inter",
   },
+  // Reweights the brand's two colours rather than inverting to grey: maroon
+  // becomes the deep surface colour, gold becomes the primary interactive
+  // accent. Mirrors the backend seed (ThemeDto.CreateDefaultDark). Shape/
+  // typography are intentionally identical to the light theme — the site only
+  // ever applies this variant's colour tokens, never radius/fonts.
+  themeDark: {
+    background: "#16090a",
+    foreground: "#f2eae1",
+    card: "#231212",
+    cardForeground: "#f2eae1",
+    primary: "#e2b577",
+    primaryForeground: "#22080a",
+    secondary: "#2e1a1b",
+    secondaryForeground: "#ede3d6",
+    muted: "#281616",
+    mutedForeground: "#a28d82",
+    accent: "#e2b577",
+    accentForeground: "#22080a",
+    border: "#3a2525",
+    input: "#3a2525",
+    ring: "#e2b577",
+    destructive: "#f14442",
+    gold: "#e2b577",
+    goldSoft: "#4b3216",
+    goldForeground: "#22080a",
+    maroon: "#500516",
+    maroonDeep: "#190002",
+    radius: "0.625rem",
+    fontHeading: "Playfair Display",
+    fontSans: "Inter",
+  },
   branding: {
     siteTitle: "Flora Group W.L.L. — A Legacy of Excellence Across Qatar",
     metaDescription:

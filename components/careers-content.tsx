@@ -198,7 +198,7 @@ export function CareersContent() {
       </section>
 
       {/* CTA band */}
-      <section className="relative overflow-hidden bg-primary text-primary-foreground">
+      <section className="relative overflow-hidden bg-maroon-deep text-white">
         <div className="bg-grid absolute inset-0 text-white/[0.04]" aria-hidden />
         <div className="absolute -right-1/4 -top-1/2 aspect-square w-1/2 rounded-full bg-gold/20 blur-3xl" />
         <Container className="relative flex flex-col items-start justify-between gap-8 py-16 lg:flex-row lg:items-center lg:py-20">
@@ -212,7 +212,7 @@ export function CareersContent() {
             <h2 className="mt-4 font-serif text-2xl font-semibold tracking-tight sm:text-3xl">
               {t.careers.cta.title}
             </h2>
-            <p className="mt-3 text-sm leading-relaxed text-primary-foreground/70">
+            <p className="mt-3 text-sm leading-relaxed text-white/70">
               {t.careers.cta.body}
             </p>
           </div>

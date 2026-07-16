@@ -98,6 +98,40 @@
   --sidebar-ring: oklch(0.8 0.085 75);
 }
 
+/*
+ * Dark theme colour tokens (background, primary, gold, maroon, etc.) are now
+ * CMS-managed — see themeDarkToCssRule, server-rendered into a <style> tag in
+ * app/layout.tsx as `.dark body { ... }`, admin-editable from the Appearance
+ * section's light/dark switch just like the light theme.
+ *
+ * The handful of tokens the CMS schema doesn't cover (popover, charts,
+ * sidebar — same list the light theme leaves untouched) still get static
+ * dark defaults here.
+ */
+html.dark {
+  color-scheme: dark;
+}
+
+.dark body {
+  --popover: oklch(0.205 0.028 18);
+  --popover-foreground: oklch(0.94 0.015 70);
+
+  --chart-1: oklch(0.8 0.095 75);
+  --chart-2: oklch(0.66 0.11 30);
+  --chart-3: oklch(0.75 0 0);
+  --chart-4: oklch(0.6 0 0);
+  --chart-5: oklch(0.45 0 0);
+
+  --sidebar: oklch(0.19 0.026 18);
+  --sidebar-foreground: oklch(0.92 0.015 70);
+  --sidebar-primary: oklch(0.8 0.095 75);
+  --sidebar-primary-foreground: oklch(0.18 0.045 18);
+  --sidebar-accent: oklch(0.245 0.032 18);
+  --sidebar-accent-foreground: oklch(0.9 0.02 74);
+  --sidebar-border: oklch(0.29 0.032 20);
+  --sidebar-ring: oklch(0.8 0.095 75);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

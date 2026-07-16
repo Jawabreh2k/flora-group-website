@@ -11,6 +11,7 @@ import {
   Mail,
   Check,
   ArrowRight,
+  ArrowUpRight,
   CalendarDays,
   Layers,
   Building2,
@@ -226,6 +227,19 @@ export function SubsidiaryDetail({
                     )}
                   </ul>
                 </div>
+                {s.website && (
+                  <div className="border-t border-border p-6">
+                    <a
+                      href={s.website}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="group flex items-center justify-between rounded-xl border border-border bg-muted/40 px-4 py-3.5 text-sm font-semibold text-foreground transition-colors hover:border-gold/50 hover:bg-gold/10"
+                    >
+                      {s.websiteLabel || t.detail.visitWebsite}
+                      <ArrowUpRight className="size-4 shrink-0 text-gold transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 rtl:scale-x-[-1]" />
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
           </Reveal>
@@ -258,6 +272,43 @@ export function SubsidiaryDetail({
           </RevealGroup>
         </Container>
       </section>
+
+      {/* ------------------------------------------------------- Trusted by */}
+      {s.clients && s.clients.length > 0 && (
+        <section className="relative isolate overflow-hidden bg-maroon-deep">
+          <div
+            aria-hidden
+            className="absolute inset-0 opacity-[0.07] [background-image:radial-gradient(circle_at_1px_1px,white_1px,transparent_0)] [background-size:22px_22px]"
+          />
+          <Container className="relative py-20 lg:py-24">
+            <Reveal className="mx-auto max-w-2xl text-center">
+              <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-gold">
+                <span className="h-px w-6 bg-gold/60" aria-hidden />
+                {t.detail.trustedByEyebrow}
+                <span className="h-px w-6 bg-gold/60" aria-hidden />
+              </span>
+              <h2 className="mt-4 font-serif text-3xl font-semibold tracking-tight text-white">
+                {t.detail.trustedByTitle}
+              </h2>
+              <p className="mt-4 text-pretty leading-relaxed text-white/70">
+                {t.detail.trustedBySubtitle}
+              </p>
+            </Reveal>
+
+            <RevealGroup className="mx-auto mt-14 grid max-w-4xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-3">
+              {s.clients.map((client) => (
+                <RevealItem key={client}>
+                  <div className="flex h-24 items-center justify-center bg-maroon-deep px-4 text-center transition-colors duration-300 hover:bg-white/[0.06]">
+                    <span className="font-serif text-sm font-medium tracking-wide text-white/85 sm:text-base">
+                      {client}
+                    </span>
+                  </div>
+                </RevealItem>
+              ))}
+            </RevealGroup>
+          </Container>
+        </section>
+      )}
 
       {/* ----------------------------------------------------------- Related */}
       <section className="bg-background">

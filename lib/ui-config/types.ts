@@ -85,6 +85,10 @@ export type ManagedSubsidiary = {
   contact: SubsidiaryContact
   /** Hides the subsidiary from the public site without deleting it. Defaults to true. */
   enabled: boolean
+  /** Named clients/partners shown as a "Trusted By" strip. Empty/absent hides the section. */
+  clients?: Localized<string[]>
+  /** Override for the "Visit Website" button label (e.g. "Shop the Online Store"). */
+  websiteLabel?: Localized<string>
 }
 
 export type SocialPlatform = 'linkedin' | 'instagram' | 'facebook' | 'x' | 'youtube'
@@ -133,6 +137,7 @@ export type ContentOverrides = Partial<Record<Locale, CmsContent>>
 
 export type UiConfigPayload = {
   theme: Theme
+  themeDark: Theme
   branding: Branding
   sections: Sections
   images: Images
