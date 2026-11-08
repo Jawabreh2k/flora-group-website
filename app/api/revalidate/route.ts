@@ -32,6 +32,6 @@ export async function POST(request: Request) {
     )
   }
 
-  revalidateTag("ui-config", "default")
+  revalidateTag("ui-config", { expire: 0 })
   return NextResponse.json({ revalidated: true, now: Date.now() })
 }

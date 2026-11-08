@@ -56,6 +56,7 @@ export function Stats() {
                   <CountUp
                     value={s.count.value}
                     suffix={s.count.suffix}
+                    group={!(s.count.value >= 1000 && s.count.value <= 2100)}
                     localeTag={localeTag}
                   />
                 ) : (
