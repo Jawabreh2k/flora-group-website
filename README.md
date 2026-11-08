@@ -1,5 +1,7 @@
 # Flora Group — Public Website
 
+> Personal portfolio project. Not affiliated with or endorsed by Flora Group; the brand name and imagery are used only to make the demo realistic.
+
 The public, bilingual (English / Arabic) website for Flora Group, built with **Next.js 16**, **React 19**, **Tailwind CSS 4** and **framer-motion**. Part 2 of a 3-part CMS ecosystem: the look and content come from a .NET API and are edited from a separate admin portal, so changes go live **without a rebuild**.
 
 <!-- screenshot: docs/screenshots/home.png -->
@@ -32,7 +34,7 @@ The public, bilingual (English / Arabic) website for Flora Group, built with **N
 
 ## Run locally
 
-Requires the [.NET API](https://github.com/Jawabreh2k/flora-backend) running on `http://localhost:5253`.
+**Prerequisites:** Node.js 20+ and the [.NET API](https://github.com/Jawabreh2k/flora-backend) running on `http://localhost:5253` (see its README).
 
 ```bash
 cp .env.example .env.local     # copy .env.example .env.local on Windows
@@ -40,7 +42,9 @@ npm install
 npm run dev                    # http://localhost:3000
 ```
 
-`FLORA_REVALIDATE_SECRET` must match the admin portal's value for instant publishing.
+In `.env.local`, set `FLORA_REVALIDATE_SECRET` to any random string. The **admin portal must use the same value**, otherwise publishing still works but takes up to `FLORA_CONFIG_REVALIDATE` seconds (default 60) to appear instead of being instant.
+
+If the API is down, the site still loads: theme and jobs fall back to bundled defaults.
 
 | Script | Purpose |
 | --- | --- |
