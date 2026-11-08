@@ -20,3 +20,4 @@ node_modules
 # indicate an accidental install with the wrong tool and should not be committed.
 pnpm-lock.yaml
 yarn.lock
+*.tsbuildinfo
